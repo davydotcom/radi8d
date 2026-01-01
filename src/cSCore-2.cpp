@@ -409,17 +409,83 @@ void cSCore::SendMOTD(int usersfd)
 		Socket->cs_write(usersfd,"!motd:No Motd Set",17);
 		return;
 	}
-	char *outputbuffer = new char[255];
-	while(!feof(MOTDFile))
-	{
-		memset(outputbuffer,0,255);
-		strcpy(outputbuffer,"!motd:");
-		fgets(&outputbuffer[6],128,MOTDFile);
-		Socket->cs_write(usersfd,outputbuffer,strlen(outputbuffer));
-	}
-	delete [] outputbuffer;
+	
+	// Read entire file
+	fseek(MOTDFile, 0, SEEK_END);
+	long filesize = ftell(MOTDFile);
+	rewind(MOTDFile);
+	
+	char *filebuffer = new char[filesize + 1];
+	memset(filebuffer, 0, filesize + 1);
+	fread(filebuffer, 1, filesize, MOTDFile);
 	fclose(MOTDFile);
 	
+	// Process and send in chunks with escaping
+	const int CHUNK_SIZE = 128;
+	char *chunk = new char[CHUNK_SIZE * 2 + 7]; // Account for escaping overhead
+	
+	int filepos = 0;
+	while(filepos < filesize)
+	{
+		memset(chunk, 0, CHUNK_SIZE * 2 + 7);
+		strcpy(chunk, "!motd:");
+		int chunkpos = 6;
+		int chunkchars = 0;
+		
+		// Fill chunk up to CHUNK_SIZE characters (after escaping)
+		while(filepos < filesize && chunkchars < CHUNK_SIZE)
+		{
+			if(filebuffer[filepos] == '\n')
+			{
+				if(chunkchars + 4 <= CHUNK_SIZE)
+				{
+					strcpy(&chunk[chunkpos], "<nl>");
+					chunkpos += 4;
+					chunkchars += 4;
+					filepos++;
+				}
+				else
+					break;
+			}
+			else if(filebuffer[filepos] == '\r')
+			{
+				// Skip carriage returns
+				filepos++;
+			}
+			else if(filebuffer[filepos] == ':')
+			{
+				if(chunkchars + 7 <= CHUNK_SIZE)
+				{
+					strcpy(&chunk[chunkpos], "<colon>");
+					chunkpos += 7;
+					chunkchars += 7;
+					filepos++;
+				}
+				else
+					break;
+			}
+			else
+			{
+				if(chunkchars + 1 <= CHUNK_SIZE)
+				{
+					chunk[chunkpos] = filebuffer[filepos];
+					chunkpos++;
+					chunkchars++;
+					filepos++;
+				}
+				else
+					break;
+			}
+		}
+		
+		if(chunkpos > 6)
+		{
+			Socket->cs_write(usersfd, chunk, strlen(chunk));
+		}
+	}
+	
+	delete [] filebuffer;
+	delete [] chunk;
 }
 void cSCore::ChannelList(int usersfd)
 {
