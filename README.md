@@ -247,7 +247,7 @@ Copyright 2004-2026 David Estes
 
 ## Author
 
-David Estes (Chrono)
+David Estes (davydotcom)
 
 ## Contributing
 
