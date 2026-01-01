@@ -1,0 +1,64 @@
+-----------------------------------------------
+cERR class...Created By CHRONO(David Estes)
+-----------------------------------------------
+This error handler is used to produce debug information to the user. It has color support and is also capable of saving data to a log file rather than to the screen. The debugger defaults to be disabled. Lets go through the functions to get a better understanding of how this class works.
+
+------------------------
+CONSTRUCTOR EXAMPLE
+------------------------
+cERR *ErrorHandler = new cERR(ERRORFILE);
+ERRORFILE is the filename of the error file to be used by the error handler.
+
+
+
+
+
+
+
+
+-------------------------------
+DEFINES
+-------------------------------
+#define dbg(a,b,c) ErrorHandler->ProduceError(a,b,c);
+-----------------------------------------------------
+THis definition is simply used to shorten The ProduceError Function...SEE ProduceError for more information.
+
+#define info(0,a,b) ErrorHandler->ProduceError(0,a,b);
+-------------------------------------------------------
+This functions alot like the dbg definition but rather it sets the errnum to 0 (MEANING INFO) use this function if you want to display information to a user while debug is on that is not an actual error. For Example I use this function to tell the user at start that debug is in fact enabled.
+
+------------------
+FUNCTIONS
+------------------
+
+int EnableDebug(bool log)
+-------------------------
+This function, when called, enables the debugger. It takes one argument. This argument determines if you want it to store to a log file or to the screen. If you pass true than it will store to a log file. However, make sure you set the log file before you enabledebug. Else it will fail to enable and return a -2.
+
+int ProduceError(int errnum,char *function,char *reason)
+---------------------------------------------------------
+This function is the command you call wherever you want a debug message to be sent. The first thing you must do is pass the errnum. The errornumber determines what kind of error it is and can be set in the ERRFILE. Next you must set the function. The function string is where you tell the debugger which function this Error is occuring in. Then you have the reason. This can be used to specify additional information if needed.
+NOTE: If the errfile is not set the function will return a -1. If it cannot open the file then it will return a -2.
+
+int DisableDebug(void)
+--------------------------------------------------------
+This function, when called, will disable the debugge.
+
+int SetLogFile(char *file)
+----------------------------
+This function is used to set the log file for the program to use. 
+
+int SetErrFile(char *file)
+----------------------------
+This function is used to set the Error File for the program to use as its error code dictionary
+
+
+
+
+--------------------------------
+ERROR DICTIONARY FILE SYNTAX
+--------------------------------
+errnum:ERRORDESCRIPTION
+example:
+0:INFORMATIVE MESSAGE
+404:File Not Found

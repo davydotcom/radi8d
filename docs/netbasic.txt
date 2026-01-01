@@ -1,0 +1,18 @@
+-----------------------------------
+NETBASIC LIBRARY DOCUMENTATION
+
+THIS LIBRARY WAS WRITTEN BY Yoshiver(DEFIANTPENGUIN)(Jason ...)
+-----------------------------------
+
+int tcp_connect(char *host, int port)
+---------------------------------------
+This function will attempt to create a socket connection to (host) on (port). If successful it will return the sfd of the connection. If it fails it will return a -1.
+
+int tcp_serve(int port)
+---------------------------------------
+This function will create a listening socket on the specified port and return its sfd. If it fails to bind or create the connection, however, it will return a -1.
+
+
+int snd2sfd(int sfd,char *str,int len=0)
+-----------------------------------------
+This function is essentially a wrapper for the write function in the fact that it makes sure the data is successfully sent. You must specify the sfd of the socket to send the data to. You must also pass the string and designate the size of the transmission.

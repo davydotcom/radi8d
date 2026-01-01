@@ -1,0 +1,40 @@
+# Compiled binaries
+radi8d
+radi8d-ChanTest
+
+# Object files
+*.o
+
+# Debug symbols
+*.dSYM/
+
+# Self-signed certificates (generated at runtime)
+radi8d_self_signed.crt
+radi8d_self_signed.key
+
+# Log files
+*.log
+*.err
+
+# User data
+radi8d.usr
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Temporary files
+*.tmp
+*.swp
+*~
+
+# Archives
+*.tar
+*.tar.gz
+*.zip
+
+# IDE files
+.vscode/
+.idea/
+*.sublime-*

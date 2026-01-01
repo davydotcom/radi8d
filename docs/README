@@ -1,0 +1,85 @@
+--------------------------------
+Radi8d 2.0 README FILE
+--------------------------------
+
+---------------------------------
+Table of Contents
+---------------------------------
+1.Installation
+	1.1 LINUX INSTALLATION
+	1.2 UNIX INSTALLATION(MAYBE)
+	1.3 WINDOWS INSTALLATION(HOPEFULLY)
+
+2.Configuring The Server
+	2.1 Using The Config File
+	2.2 Passing Arguments To The Server
+
+3.Running The Server
+	3.1 Starting The Server
+	3.2 Maintaning The Server
+	3.3 Monitoring The Server
+
+4.User Management
+	4.1 Adding Reserved Users
+	4.2 Removing Reserved Users
+
+5. Administrator HOWTO
+	5.1 Harnassing the Administrator commands correctly.
+
+6. TROUBLESHOOTING
+----------------------------------
+
+
+
+
+
+
+---------------------------------
+
+1. INSTALLATION
+
+---------------------------------
+--------------------
+1.1 LINUX INSTALLATION
+--------------------
+The Linux Installation of this program is rather simple.
+Simply Perform the following commands:
+make ; make install
+All the config files and reserved user data will be stored in /usr/radi8d
+
+--------------------
+1.2 UNIX INSTALLATION
+--------------------
+First you must make sure that your Unix box has the GCC compiler installed with C++ compiling capabilities also make sure that it is at least <INSERT VERSION HERE>. Then Type The Following Commands:
+./UNIXinstall.sh
+All the config files and reserved user data will be stored in /usr/radi8d
+
+--------------------
+1.3 WINDOWS INSTALLATION
+--------------------
+The windows installation of radi8d has not yet been examined but the idea is in the works.
+
+
+
+--------------------------
+
+2. Configuring the Server
+
+--------------------------
+
+--------------------------
+2.1 Using The Config File
+--------------------------
+The Config File is pretty self explanetory. It allows you to set the default values of certain things on the server. It allows you to set maxusers and maxchannels and much more. the file is /usr/radi8d/radi8d.cfg
+Enjoy...
+
+
+------------------------------------
+2.2 Passing Arguments to The Server
+------------------------------------
+The argument system of the server is still being worked on but the syntax is
+./radi8d [portnumber] [-d]
+-d stands for daemon mode
+you can also pass --debug
+BUT --debug WILL AUTOMATICALLY IGNORE -d unless you send --log instead. When --log is passed the program will store the debug information to /var/log/radi8d.log
+

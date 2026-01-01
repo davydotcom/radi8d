@@ -1,0 +1,119 @@
+--------------------
+Client to server
+--------------------
+!topic: channel
+----------------
+Requests for the topic of a channel
+
+!settopic: channel:topic
+------------------------
+Allows a user to set the topic for the channel
+
+!jnchn: channel
+---------------
+Adds channel to your list of open channels on the server
+
+!lvchan: channel
+---------------
+Removes channel from your list of open channels
+
+!chmod: channel: settingname: newseting
+---------------
+Lets the admin of a channel change settings of a channel, ie: password, channel type, maxusers, etc. 
+if settingname = "user" than syntax changes to chmod: channel: username:settingname:new setting -- Can Be used for permission changing kicking and banning
+
+!msg: channel: message
+---------------
+Sends a message to specified channel. When channel is prefixed with "user:", message is a private message to the name listed instead of a message for that channel.
+
+!emote: channel: emotion
+--------------
+For when they do /me
+
+!name: newname: password
+---------------
+Changes your name the the name specified (assuming there is no one else with that name)
+password is optional
+
+!v: channel: voicedata
+--------------
+Sends a Voice Communication to specified channel. When channel is prefixed with "user:", message is a private message tothe name listed instead of a message for that channel.
+
+!kick: user: reason
+--------------
+Sends A Global Kick of User
+--use chmod for channel kick
+
+!ban: user: time: reason
+--------------
+Sends A Global Ban of User for time minutes 0=unlimited ban
+--use chmod for channel ban
+
+!unban: user
+--------------
+UnBan Global Ban
+--use chmod for channel unban
+
+!chanlist
+--------------
+Request For A List of Channels
+--Send channels until #EOF received by client
+
+!whois: user
+--------------
+Request for user Information (profile as well if possible)
+--Ends with #EOF
+
+!userlist: channel
+--------------
+Request For The Channel User List
+--Normally Sent at First Channel Connection
+--Ends With #EOF
+
+!motd
+--------------
+Request For The Message of The Day
+--Ends with #EOF
+
+!getprofile: user
+--------------
+Request For User Profile
+--Ends with #EOF
+
+!setprofile: append: text
+--------------
+If append = 0 then it truncates users current profile with text and if append = 1 then it adds text to the end of the profile
+
+
+--------------------
+Server to client
+--------------------
+!usrmsg: chan: user: message
+Self explanatory
+
+!motd:data
+Sends the message of the day data to the client
+
+!topic: chan:topic
+Sends the topic for a particular channe.
+
+!usremt: chan: user: emotion
+Self explanatory
+
+!godmsg: chan: message
+Displays a message from "nobody" informing the people of stuff.
+
+!die: chan: how: reason
+Tells them they were kicked off a channel. How is whther it was by ban or kick or whatever, reason is what they did to deserve being kicked.
+
+!err: regarding: reason
+When they try to do something and it doesnt work, the server will use this to tlel them why. regarding is what they tried to do, reason is why it didn't work.
+
+!chanadd:ChannelName:NumberUsers:Topic
+Tells The Client To Add A Channel To It's List of Channels
+
+!usrjoind:channel:username:permissions:allowvoice
+Tells The Client When A User Joins A Channel They Are In
+
+!usrleft:channel
+Tells The Client When A User Has Left The Channel They Are In

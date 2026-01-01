@@ -1,0 +1,136 @@
+---------------------------
+cUserHandler Documentation
+---------------------------
+Constructor Specs
+---------------------------
+cUserHandler(char *userfile2,char *profilelocation2,cERR *errhandle,int maxusers2,int maxfiles2,int MaxFileTransferRate2,int maxprofilesize2)
+--This Is How UserHandler Must Be Declared
+
+********************
+PRIVATE FUNCTIONS (DONT CALL THESE)
+********************
+
+bool ValidPassword(char *username, char*password);
+-------------------------------------
+Used To Check If The Password Sent Matches The UserInformation
+
+bool GetUserSettings(char *username,int *DefaultPermissions,bool *acceptvoice);
+-------------------------------------
+Used To GetUserSettings From ReservedUser Information
+
+bool SaveUserSettings(char *username);
+-------------------------------------
+Used To Update UserSettings For ReservedUsers when They Log Off
+
+********************
+PUBLIC FUNCTIONS(SAFE TO CALL)
+********************
+
+bool AddUser(int usersfd, char *hostname);
+-------------------------------------
+This Function Is Called When A User Connects (Note that The UserName is Not Set ....Defaults To UNVERIFIED)
+
+bool RemoveUser(int usersfd);
+-------------------------------------
+This Function Is Called When A User Disconnects From The Server (Make Sure User Is Removed From ChannelsFirst
+
+int SetName(int usersfd, char *username,char *Password);
+-------------------------------------
+This Function Is Used To Set The UserName Of The Connected User
+
+bool SetPermissions(int fromsfd,int usersfd,int DefaultPermissions);
+-------------------------------------
+This Function Can Be Used By A SuperAdmin To Set Global Permissions For A User
+
+bool SetAcceptVoice(int usersfd,bool acceptvoice);
+-------------------------------------
+This Function Can Be Used To Set The Users VoiceComm Acceptance (TRUE OR FALSE)
+
+bool SetProfile(int usersfd,char *text,bool append);
+-------------------------------------
+This Function Can Be Used To Truncate or Append To The Reserved Users Profile
+
+bool IsConnected(char *username);
+-------------------------------------
+This Function Can Be Used To See If A User Is Actually Connected
+
+int GetSFD(char *username);
+-------------------------------------
+This Function Can Get The Username's Corresponding SFD
+
+char* GetUserName(int usersfd);
+-------------------------------------
+This Function Can Be Used To Get The UserName based off an SFD
+
+char* GetHostName(int usersfd);
+-------------------------------------
+This Function Returns The User's Hostname
+
+int GetPermissions(int usersfd);
+-------------------------------------
+This Function Is Used To Get The User's Default Permissions
+
+char* GetProfile(int usersfd,int num);
+-------------------------------------
+This Function Is Used To Get The Profile Line By Line...Will Return NULL when At End
+
+bool GetAcceptVoice(int usersfd);
+-------------------------------------
+This Function Returns the value of the acceptvoice bool variable for that user
+
+bool GetReservedStatus(int usersfd);
+-------------------------------------
+Returns True if User Is A Reserved User
+
+bool SendMessage(char *username,char *msg);
+-------------------------------------
+Sends msg to that User
+
+bool BanUser(int fromsfd,int usersfd,int minutes,char *reason);
+-------------------------------------
+Allows a SuperAdmin To Ban A User Globally From The Server For a number of minutes
+--If minutes = 0 than unlimited ban
+
+bool UnBanUser(int fromsfd,char *username);
+--------------------------------------
+Allows a SuperAdmin To UnBan A Previously Banned User
+
+bool KickUser(int fromsfd,int usersfd,char *reason);
+--------------------------------------
+Allows a SuperAdmin to Kick A User From The Server
+
+int GetTotalFiles(int usersfd);
+--------------------------------------
+Used To Get The TotalNumber of Files A User Is Sharing
+
+void GetFileList(int usersfd,int *FileID,char *Filename,float *size,int num);
+--------------------------------------
+Used To Get A List of Files That The User is Sharing and Their Size and ID
+
+int GetFileID(int usersfd,char *Filename);
+--------------------------------------
+Used To Get The FileID of A Filename
+
+bool AddFile(int usersfd,char *Filename,float size);
+--------------------------------------
+Can Be Used To Add A File To The Current User's List of Shared Files
+
+bool RemoveFile(int usersfd,char *Filename);
+--------------------------------------
+Can Be Used To Remove A File In The Current Users's List of Shared Files
+
+bool AddReservedUser(int fromsfd,char *username,char *password,int DefaultPermissions,bool acceptvoice);
+--------------------------------------
+A SuperAdmin can Use This Function To Add A ReservedUser
+
+bool RemoveReservedUser(int fromsfd,char *username);
+--------------------------------------
+A SupserAdmin CanUser This Function To Remove a ReservedUser
+
+bool IsReservedUserName(char *username);
+--------------------------------------
+Can Be Used To See If A User Is Reserved Or Not
+
+bool SetPassword(int usersfd,char *newpassword)
+--------------------------------------
+A ReservedUser Can User This Function To Change Their Password

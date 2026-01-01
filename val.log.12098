@@ -1,0 +1,328 @@
+==12098== Memcheck, a memory error detector.
+==12098== Copyright (C) 2002-2007, and GNU GPL'd, by Julian Seward et al.
+==12098== Using LibVEX rev 1732, a library for dynamic binary translation.
+==12098== Copyright (C) 2004-2007, and GNU GPL'd, by OpenWorks LLP.
+==12098== Using valgrind-3.2.3-Debian, a dynamic binary instrumentation framework.
+==12098== Copyright (C) 2000-2007, and GNU GPL'd, by Julian Seward et al.
+==12098== For more details, rerun with: -v
+==12098== 
+==12098== My PID = 12098, parent PID = 5533.  Prog and args are:
+==12098==    ./radi8d
+==12098==    -p
+==12098==    1028
+==12098== 
+==12098== Invalid write of size 1
+==12098==    at 0x4023556: strcpy (mc_replace_strmem.c:272)
+==12098==    by 0x804A910: cChannelHandler::CreateChannel(char*, char*, char*, int, bool, bool) (cChannelHandler.cpp:97)
+==12098==    by 0x804F91F: cSCore::JoinChannel(int, char*) (cSCore-2.cpp:92)
+==12098==    by 0x804FCC9: cSCore::parsecmd(int, char*) (cSCore-2.cpp:39)
+==12098==    by 0x804E0AB: cSCore::runcore() (cSCore.cpp:103)
+==12098==    by 0x8049637: main (main.cpp:172)
+==12098==  Address 0x42A8375 is 0 bytes after a block of size 5 alloc'd
+==12098==    at 0x4021B9C: operator new[](unsigned) (vg_replace_malloc.c:195)
+==12098==    by 0x804A8F5: cChannelHandler::CreateChannel(char*, char*, char*, int, bool, bool) (cChannelHandler.cpp:96)
+==12098==    by 0x804F91F: cSCore::JoinChannel(int, char*) (cSCore-2.cpp:92)
+==12098==    by 0x804FCC9: cSCore::parsecmd(int, char*) (cSCore-2.cpp:39)
+==12098==    by 0x804E0AB: cSCore::runcore() (cSCore.cpp:103)
+==12098==    by 0x8049637: main (main.cpp:172)
+==12098== 
+==12098== Invalid write of size 1
+==12098==    at 0x4023556: strcpy (mc_replace_strmem.c:272)
+==12098==    by 0x804A95C: cChannelHandler::CreateChannel(char*, char*, char*, int, bool, bool) (cChannelHandler.cpp:102)
+==12098==    by 0x804F91F: cSCore::JoinChannel(int, char*) (cSCore-2.cpp:92)
+==12098==    by 0x804FCC9: cSCore::parsecmd(int, char*) (cSCore-2.cpp:39)
+==12098==    by 0x804E0AB: cSCore::runcore() (cSCore.cpp:103)
+==12098==    by 0x8049637: main (main.cpp:172)
+==12098==  Address 0x42A83AC is 0 bytes after a block of size 4 alloc'd
+==12098==    at 0x4021B9C: operator new[](unsigned) (vg_replace_malloc.c:195)
+==12098==    by 0x804A941: cChannelHandler::CreateChannel(char*, char*, char*, int, bool, bool) (cChannelHandler.cpp:100)
+==12098==    by 0x804F91F: cSCore::JoinChannel(int, char*) (cSCore-2.cpp:92)
+==12098==    by 0x804FCC9: cSCore::parsecmd(int, char*) (cSCore-2.cpp:39)
+==12098==    by 0x804E0AB: cSCore::runcore() (cSCore.cpp:103)
+==12098==    by 0x8049637: main (main.cpp:172)
+==12098== 
+==12098== Invalid read of size 1
+==12098==    at 0x40225FE: strcmp (mc_replace_strmem.c:341)
+==12098==    by 0x804A6AF: cChannelHandler::IsAChannel(char*) (cChannelHandler.cpp:305)
+==12098==    by 0x804C2E5: cChannelHandler::JoinChannel(int, char*, char*) (cChannelHandler.cpp:176)
+==12098==    by 0x804F9C9: cSCore::JoinChannel(int, char*) (cSCore-2.cpp:104)
+==12098==    by 0x804FCC9: cSCore::parsecmd(int, char*) (cSCore-2.cpp:39)
+==12098==    by 0x804E0AB: cSCore::runcore() (cSCore.cpp:103)
+==12098==    by 0x8049637: main (main.cpp:172)
+==12098==  Address 0x42A8375 is 0 bytes after a block of size 5 alloc'd
+==12098==    at 0x4021B9C: operator new[](unsigned) (vg_replace_malloc.c:195)
+==12098==    by 0x804A8F5: cChannelHandler::CreateChannel(char*, char*, char*, int, bool, bool) (cChannelHandler.cpp:96)
+==12098==    by 0x804F91F: cSCore::JoinChannel(int, char*) (cSCore-2.cpp:92)
+==12098==    by 0x804FCC9: cSCore::parsecmd(int, char*) (cSCore-2.cpp:39)
+==12098==    by 0x804E0AB: cSCore::runcore() (cSCore.cpp:103)
+==12098==    by 0x8049637: main (main.cpp:172)
+==12098== 
+==12098== Invalid read of size 1
+==12098==    at 0x40225FE: strcmp (mc_replace_strmem.c:341)
+==12098==    by 0x804AA3F: cChannelHandler::GetUser(int, char*) (cChannelHandler.cpp:56)
+==12098==    by 0x804AB0B: cChannelHandler::IsInChannel(int, char*) (cChannelHandler.cpp:315)
+==12098==    by 0x804C314: cChannelHandler::JoinChannel(int, char*, char*) (cChannelHandler.cpp:178)
+==12098==    by 0x804F9C9: cSCore::JoinChannel(int, char*) (cSCore-2.cpp:104)
+==12098==    by 0x804FCC9: cSCore::parsecmd(int, char*) (cSCore-2.cpp:39)
+==12098==    by 0x804E0AB: cSCore::runcore() (cSCore.cpp:103)
+==12098==    by 0x8049637: main (main.cpp:172)
+==12098==  Address 0x42A8375 is 0 bytes after a block of size 5 alloc'd
+==12098==    at 0x4021B9C: operator new[](unsigned) (vg_replace_malloc.c:195)
+==12098==    by 0x804A8F5: cChannelHandler::CreateChannel(char*, char*, char*, int, bool, bool) (cChannelHandler.cpp:96)
+==12098==    by 0x804F91F: cSCore::JoinChannel(int, char*) (cSCore-2.cpp:92)
+==12098==    by 0x804FCC9: cSCore::parsecmd(int, char*) (cSCore-2.cpp:39)
+==12098==    by 0x804E0AB: cSCore::runcore() (cSCore.cpp:103)
+==12098==    by 0x8049637: main (main.cpp:172)
+==12098== 
+==12098== Invalid read of size 1
+==12098==    at 0x40225FE: strcmp (mc_replace_strmem.c:341)
+==12098==    by 0x804C367: cChannelHandler::JoinChannel(int, char*, char*) (cChannelHandler.cpp:185)
+==12098==    by 0x804F9C9: cSCore::JoinChannel(int, char*) (cSCore-2.cpp:104)
+==12098==    by 0x804FCC9: cSCore::parsecmd(int, char*) (cSCore-2.cpp:39)
+==12098==    by 0x804E0AB: cSCore::runcore() (cSCore.cpp:103)
+==12098==    by 0x8049637: main (main.cpp:172)
+==12098==  Address 0x42A8375 is 0 bytes after a block of size 5 alloc'd
+==12098==    at 0x4021B9C: operator new[](unsigned) (vg_replace_malloc.c:195)
+==12098==    by 0x804A8F5: cChannelHandler::CreateChannel(char*, char*, char*, int, bool, bool) (cChannelHandler.cpp:96)
+==12098==    by 0x804F91F: cSCore::JoinChannel(int, char*) (cSCore-2.cpp:92)
+==12098==    by 0x804FCC9: cSCore::parsecmd(int, char*) (cSCore-2.cpp:39)
+==12098==    by 0x804E0AB: cSCore::runcore() (cSCore.cpp:103)
+==12098==    by 0x8049637: main (main.cpp:172)
+==12098== 
+==12098== Invalid read of size 1
+==12098==    at 0x40225FE: strcmp (mc_replace_strmem.c:341)
+==12098==    by 0x804C3DA: cChannelHandler::JoinChannel(int, char*, char*) (cChannelHandler.cpp:198)
+==12098==    by 0x804F9C9: cSCore::JoinChannel(int, char*) (cSCore-2.cpp:104)
+==12098==    by 0x804FCC9: cSCore::parsecmd(int, char*) (cSCore-2.cpp:39)
+==12098==    by 0x804E0AB: cSCore::runcore() (cSCore.cpp:103)
+==12098==    by 0x8049637: main (main.cpp:172)
+==12098==  Address 0x42A83AC is 0 bytes after a block of size 4 alloc'd
+==12098==    at 0x4021B9C: operator new[](unsigned) (vg_replace_malloc.c:195)
+==12098==    by 0x804A941: cChannelHandler::CreateChannel(char*, char*, char*, int, bool, bool) (cChannelHandler.cpp:100)
+==12098==    by 0x804F91F: cSCore::JoinChannel(int, char*) (cSCore-2.cpp:92)
+==12098==    by 0x804FCC9: cSCore::parsecmd(int, char*) (cSCore-2.cpp:39)
+==12098==    by 0x804E0AB: cSCore::runcore() (cSCore.cpp:103)
+==12098==    by 0x8049637: main (main.cpp:172)
+==12098== 
+==12098== Invalid read of size 1
+==12098==    at 0x40225FE: strcmp (mc_replace_strmem.c:341)
+==12098==    by 0x804A6AF: cChannelHandler::IsAChannel(char*) (cChannelHandler.cpp:305)
+==12098==    by 0x804BA2C: cChannelHandler::SendToChannel(int, char*, char*) (cChannelHandler.cpp:327)
+==12098==    by 0x804C599: cChannelHandler::JoinChannel(int, char*, char*) (cChannelHandler.cpp:220)
+==12098==    by 0x804F9C9: cSCore::JoinChannel(int, char*) (cSCore-2.cpp:104)
+==12098==    by 0x804FCC9: cSCore::parsecmd(int, char*) (cSCore-2.cpp:39)
+==12098==    by 0x804E0AB: cSCore::runcore() (cSCore.cpp:103)
+==12098==    by 0x8049637: main (main.cpp:172)
+==12098==  Address 0x42A8375 is 0 bytes after a block of size 5 alloc'd
+==12098==    at 0x4021B9C: operator new[](unsigned) (vg_replace_malloc.c:195)
+==12098==    by 0x804A8F5: cChannelHandler::CreateChannel(char*, char*, char*, int, bool, bool) (cChannelHandler.cpp:96)
+==12098==    by 0x804F91F: cSCore::JoinChannel(int, char*) (cSCore-2.cpp:92)
+==12098==    by 0x804FCC9: cSCore::parsecmd(int, char*) (cSCore-2.cpp:39)
+==12098==    by 0x804E0AB: cSCore::runcore() (cSCore.cpp:103)
+==12098==    by 0x8049637: main (main.cpp:172)
+==12098== 
+==12098== Invalid read of size 1
+==12098==    at 0x40225FE: strcmp (mc_replace_strmem.c:341)
+==12098==    by 0x804AA3F: cChannelHandler::GetUser(int, char*) (cChannelHandler.cpp:56)
+==12098==    by 0x804AB0B: cChannelHandler::IsInChannel(int, char*) (cChannelHandler.cpp:315)
+==12098==    by 0x804BA82: cChannelHandler::SendToChannel(int, char*, char*) (cChannelHandler.cpp:336)
+==12098==    by 0x804C599: cChannelHandler::JoinChannel(int, char*, char*) (cChannelHandler.cpp:220)
+==12098==    by 0x804F9C9: cSCore::JoinChannel(int, char*) (cSCore-2.cpp:104)
+==12098==    by 0x804FCC9: cSCore::parsecmd(int, char*) (cSCore-2.cpp:39)
+==12098==    by 0x804E0AB: cSCore::runcore() (cSCore.cpp:103)
+==12098==    by 0x8049637: main (main.cpp:172)
+==12098==  Address 0x42A8375 is 0 bytes after a block of size 5 alloc'd
+==12098==    at 0x4021B9C: operator new[](unsigned) (vg_replace_malloc.c:195)
+==12098==    by 0x804A8F5: cChannelHandler::CreateChannel(char*, char*, char*, int, bool, bool) (cChannelHandler.cpp:96)
+==12098==    by 0x804F91F: cSCore::JoinChannel(int, char*) (cSCore-2.cpp:92)
+==12098==    by 0x804FCC9: cSCore::parsecmd(int, char*) (cSCore-2.cpp:39)
+==12098==    by 0x804E0AB: cSCore::runcore() (cSCore.cpp:103)
+==12098==    by 0x8049637: main (main.cpp:172)
+==12098== 
+==12098== Invalid read of size 1
+==12098==    at 0x40225FE: strcmp (mc_replace_strmem.c:341)
+==12098==    by 0x804AA3F: cChannelHandler::GetUser(int, char*) (cChannelHandler.cpp:56)
+==12098==    by 0x804E313: cSCore::UserList(int, char*) (cSCore-2.cpp:483)
+==12098==    by 0x804FF11: cSCore::parsecmd(int, char*) (cSCore-2.cpp:69)
+==12098==    by 0x804E0AB: cSCore::runcore() (cSCore.cpp:103)
+==12098==    by 0x8049637: main (main.cpp:172)
+==12098==  Address 0x42A8375 is 0 bytes after a block of size 5 alloc'd
+==12098==    at 0x4021B9C: operator new[](unsigned) (vg_replace_malloc.c:195)
+==12098==    by 0x804A8F5: cChannelHandler::CreateChannel(char*, char*, char*, int, bool, bool) (cChannelHandler.cpp:96)
+==12098==    by 0x804F91F: cSCore::JoinChannel(int, char*) (cSCore-2.cpp:92)
+==12098==    by 0x804FCC9: cSCore::parsecmd(int, char*) (cSCore-2.cpp:39)
+==12098==    by 0x804E0AB: cSCore::runcore() (cSCore.cpp:103)
+==12098==    by 0x8049637: main (main.cpp:172)
+==12098== 
+==12098== Invalid read of size 1
+==12098==    at 0x40225FE: strcmp (mc_replace_strmem.c:341)
+==12098==    by 0x804A6AF: cChannelHandler::IsAChannel(char*) (cChannelHandler.cpp:305)
+==12098==    by 0x804A787: cChannelHandler::GetTopic(char*) (cChannelHandler.cpp:476)
+==12098==    by 0x804E69F: cSCore::GetTopic(int, char*) (cSCore-2.cpp:415)
+==12098==    by 0x804FE0D: cSCore::parsecmd(int, char*) (cSCore-2.cpp:55)
+==12098==    by 0x804E0AB: cSCore::runcore() (cSCore.cpp:103)
+==12098==    by 0x8049637: main (main.cpp:172)
+==12098==  Address 0x42A8375 is 0 bytes after a block of size 5 alloc'd
+==12098==    at 0x4021B9C: operator new[](unsigned) (vg_replace_malloc.c:195)
+==12098==    by 0x804A8F5: cChannelHandler::CreateChannel(char*, char*, char*, int, bool, bool) (cChannelHandler.cpp:96)
+==12098==    by 0x804F91F: cSCore::JoinChannel(int, char*) (cSCore-2.cpp:92)
+==12098==    by 0x804FCC9: cSCore::parsecmd(int, char*) (cSCore-2.cpp:39)
+==12098==    by 0x804E0AB: cSCore::runcore() (cSCore.cpp:103)
+==12098==    by 0x8049637: main (main.cpp:172)
+==12098== 
+==12098== Invalid write of size 1
+==12098==    at 0x41BF287: _IO_default_xsputn (in /lib/tls/i686/cmov/libc-2.6.1.so)
+==12098==    by 0x4196D57: vfprintf (in /lib/tls/i686/cmov/libc-2.6.1.so)
+==12098==    by 0x41B433B: vsprintf (in /lib/tls/i686/cmov/libc-2.6.1.so)
+==12098==    by 0x419F9BD: sprintf (in /lib/tls/i686/cmov/libc-2.6.1.so)
+==12098==    by 0x804E720: cSCore::GetTopic(int, char*) (cSCore-2.cpp:421)
+==12098==    by 0x804FE0D: cSCore::parsecmd(int, char*) (cSCore-2.cpp:55)
+==12098==    by 0x804E0AB: cSCore::runcore() (cSCore.cpp:103)
+==12098==    by 0x8049637: main (main.cpp:172)
+==12098==  Address 0x42A8B1C is 0 bytes after a block of size 20 alloc'd
+==12098==    at 0x4021B9C: operator new[](unsigned) (vg_replace_malloc.c:195)
+==12098==    by 0x804E6D4: cSCore::GetTopic(int, char*) (cSCore-2.cpp:419)
+==12098==    by 0x804FE0D: cSCore::parsecmd(int, char*) (cSCore-2.cpp:55)
+==12098==    by 0x804E0AB: cSCore::runcore() (cSCore.cpp:103)
+==12098==    by 0x8049637: main (main.cpp:172)
+==12098== 
+==12098== Invalid write of size 1
+==12098==    at 0x41B434C: vsprintf (in /lib/tls/i686/cmov/libc-2.6.1.so)
+==12098==    by 0x419F9BD: sprintf (in /lib/tls/i686/cmov/libc-2.6.1.so)
+==12098==    by 0x804E720: cSCore::GetTopic(int, char*) (cSCore-2.cpp:421)
+==12098==    by 0x804FE0D: cSCore::parsecmd(int, char*) (cSCore-2.cpp:55)
+==12098==    by 0x804E0AB: cSCore::runcore() (cSCore.cpp:103)
+==12098==    by 0x8049637: main (main.cpp:172)
+==12098==  Address 0x42A8B1D is 1 bytes after a block of size 20 alloc'd
+==12098==    at 0x4021B9C: operator new[](unsigned) (vg_replace_malloc.c:195)
+==12098==    by 0x804E6D4: cSCore::GetTopic(int, char*) (cSCore-2.cpp:419)
+==12098==    by 0x804FE0D: cSCore::parsecmd(int, char*) (cSCore-2.cpp:55)
+==12098==    by 0x804E0AB: cSCore::runcore() (cSCore.cpp:103)
+==12098==    by 0x8049637: main (main.cpp:172)
+==12098== 
+==12098== Invalid read of size 1
+==12098==    at 0x804E735: cSCore::GetTopic(int, char*) (cSCore-2.cpp:422)
+==12098==    by 0x804FE0D: cSCore::parsecmd(int, char*) (cSCore-2.cpp:55)
+==12098==    by 0x804E0AB: cSCore::runcore() (cSCore.cpp:103)
+==12098==    by 0x8049637: main (main.cpp:172)
+==12098==  Address 0x42A8B1C is 0 bytes after a block of size 20 alloc'd
+==12098==    at 0x4021B9C: operator new[](unsigned) (vg_replace_malloc.c:195)
+==12098==    by 0x804E6D4: cSCore::GetTopic(int, char*) (cSCore-2.cpp:419)
+==12098==    by 0x804FE0D: cSCore::parsecmd(int, char*) (cSCore-2.cpp:55)
+==12098==    by 0x804E0AB: cSCore::runcore() (cSCore.cpp:103)
+==12098==    by 0x8049637: main (main.cpp:172)
+==12098== 
+==12098== Invalid read of size 1
+==12098==    at 0x8049F45: cswrapper::cs_write(int, char*, int) (in /home/destes/radi8d2/radi8d)
+==12098==    by 0x804E75F: cSCore::GetTopic(int, char*) (cSCore-2.cpp:422)
+==12098==    by 0x804FE0D: cSCore::parsecmd(int, char*) (cSCore-2.cpp:55)
+==12098==    by 0x804E0AB: cSCore::runcore() (cSCore.cpp:103)
+==12098==    by 0x8049637: main (main.cpp:172)
+==12098==  Address 0x42A8B1C is 0 bytes after a block of size 20 alloc'd
+==12098==    at 0x4021B9C: operator new[](unsigned) (vg_replace_malloc.c:195)
+==12098==    by 0x804E6D4: cSCore::GetTopic(int, char*) (cSCore-2.cpp:419)
+==12098==    by 0x804FE0D: cSCore::parsecmd(int, char*) (cSCore-2.cpp:55)
+==12098==    by 0x804E0AB: cSCore::runcore() (cSCore.cpp:103)
+==12098==    by 0x8049637: main (main.cpp:172)
+==12098== 
+==12098== Invalid read of size 1
+==12098==    at 0x4022513: strlen (mc_replace_strmem.c:246)
+==12098==    by 0x4199DDF: vfprintf (in /lib/tls/i686/cmov/libc-2.6.1.so)
+==12098==    by 0x41B433B: vsprintf (in /lib/tls/i686/cmov/libc-2.6.1.so)
+==12098==    by 0x419F9BD: sprintf (in /lib/tls/i686/cmov/libc-2.6.1.so)
+==12098==    by 0x8049F98: cswrapper::cs_write(int, char*, int) (in /home/destes/radi8d2/radi8d)
+==12098==    by 0x804E75F: cSCore::GetTopic(int, char*) (cSCore-2.cpp:422)
+==12098==    by 0x804FE0D: cSCore::parsecmd(int, char*) (cSCore-2.cpp:55)
+==12098==    by 0x804E0AB: cSCore::runcore() (cSCore.cpp:103)
+==12098==    by 0x8049637: main (main.cpp:172)
+==12098==  Address 0x42A8B1C is 0 bytes after a block of size 20 alloc'd
+==12098==    at 0x4021B9C: operator new[](unsigned) (vg_replace_malloc.c:195)
+==12098==    by 0x804E6D4: cSCore::GetTopic(int, char*) (cSCore-2.cpp:419)
+==12098==    by 0x804FE0D: cSCore::parsecmd(int, char*) (cSCore-2.cpp:55)
+==12098==    by 0x804E0AB: cSCore::runcore() (cSCore.cpp:103)
+==12098==    by 0x8049637: main (main.cpp:172)
+==12098== 
+==12098== Invalid read of size 1
+==12098==    at 0x4022E9E: mempcpy (mc_replace_strmem.c:636)
+==12098==    by 0x41BF2FA: _IO_default_xsputn (in /lib/tls/i686/cmov/libc-2.6.1.so)
+==12098==    by 0x419A0B0: vfprintf (in /lib/tls/i686/cmov/libc-2.6.1.so)
+==12098==    by 0x41B433B: vsprintf (in /lib/tls/i686/cmov/libc-2.6.1.so)
+==12098==    by 0x419F9BD: sprintf (in /lib/tls/i686/cmov/libc-2.6.1.so)
+==12098==    by 0x8049F98: cswrapper::cs_write(int, char*, int) (in /home/destes/radi8d2/radi8d)
+==12098==    by 0x804E75F: cSCore::GetTopic(int, char*) (cSCore-2.cpp:422)
+==12098==    by 0x804FE0D: cSCore::parsecmd(int, char*) (cSCore-2.cpp:55)
+==12098==    by 0x804E0AB: cSCore::runcore() (cSCore.cpp:103)
+==12098==    by 0x8049637: main (main.cpp:172)
+==12098==  Address 0x42A8B1C is 0 bytes after a block of size 20 alloc'd
+==12098==    at 0x4021B9C: operator new[](unsigned) (vg_replace_malloc.c:195)
+==12098==    by 0x804E6D4: cSCore::GetTopic(int, char*) (cSCore-2.cpp:419)
+==12098==    by 0x804FE0D: cSCore::parsecmd(int, char*) (cSCore-2.cpp:55)
+==12098==    by 0x804E0AB: cSCore::runcore() (cSCore.cpp:103)
+==12098==    by 0x8049637: main (main.cpp:172)
+==12098== 
+==12098== Invalid read of size 4
+==12098==    at 0x4014C09: (within /lib/ld-2.6.1.so)
+==12098==    by 0x4005BE9: (within /lib/ld-2.6.1.so)
+==12098==    by 0x4007A07: (within /lib/ld-2.6.1.so)
+==12098==    by 0x4010F83: (within /lib/ld-2.6.1.so)
+==12098==    by 0x400D015: (within /lib/ld-2.6.1.so)
+==12098==    by 0x401099D: (within /lib/ld-2.6.1.so)
+==12098==    by 0x4263061: (within /lib/tls/i686/cmov/libc-2.6.1.so)
+==12098==    by 0x400D015: (within /lib/ld-2.6.1.so)
+==12098==    by 0x4263224: __libc_dlopen_mode (in /lib/tls/i686/cmov/libc-2.6.1.so)
+==12098==    by 0x423D756: __nss_lookup_function (in /lib/tls/i686/cmov/libc-2.6.1.so)
+==12098==    by 0x423D86F: (within /lib/tls/i686/cmov/libc-2.6.1.so)
+==12098==    by 0x423F495: __nss_hosts_lookup (in /lib/tls/i686/cmov/libc-2.6.1.so)
+==12098==  Address 0x42A9EAC is 36 bytes inside a block of size 37 alloc'd
+==12098==    at 0x4021765: malloc (vg_replace_malloc.c:149)
+==12098==    by 0x4007FA1: (within /lib/ld-2.6.1.so)
+==12098==    by 0x4010F83: (within /lib/ld-2.6.1.so)
+==12098==    by 0x400D015: (within /lib/ld-2.6.1.so)
+==12098==    by 0x401099D: (within /lib/ld-2.6.1.so)
+==12098==    by 0x4263061: (within /lib/tls/i686/cmov/libc-2.6.1.so)
+==12098==    by 0x400D015: (within /lib/ld-2.6.1.so)
+==12098==    by 0x4263224: __libc_dlopen_mode (in /lib/tls/i686/cmov/libc-2.6.1.so)
+==12098==    by 0x423D756: __nss_lookup_function (in /lib/tls/i686/cmov/libc-2.6.1.so)
+==12098==    by 0x423D86F: (within /lib/tls/i686/cmov/libc-2.6.1.so)
+==12098==    by 0x423F495: __nss_hosts_lookup (in /lib/tls/i686/cmov/libc-2.6.1.so)
+==12098==    by 0x4243A52: gethostbyname_r (in /lib/tls/i686/cmov/libc-2.6.1.so)
+==12098== 
+==12098== Invalid free() / delete / delete[]
+==12098==    at 0x4020D18: operator delete[](void*) (vg_replace_malloc.c:256)
+==12098==    by 0x804E2BD: cSCore::runcore() (cSCore.cpp:156)
+==12098==    by 0x8049637: main (main.cpp:172)
+==12098==  Address 0x42A8908 is 0 bytes inside a block of size 15 free'd
+==12098==    at 0x4020D18: operator delete[](void*) (vg_replace_malloc.c:256)
+==12098==    by 0x804E244: cSCore::runcore() (cSCore.cpp:137)
+==12098==    by 0x8049637: main (main.cpp:172)
+==12098== 
+==12098== ERROR SUMMARY: 21 errors from 18 contexts (suppressed: 31 from 1)
+==12098== malloc/free: in use at exit: 21 bytes in 3 blocks.
+==12098== malloc/free: 195 allocs, 193 frees, 16,566 bytes allocated.
+==12098== For counts of detected errors, rerun with: -v
+==12098== searching for pointers to 3 not-freed blocks.
+==12098== checked 104,140 bytes.
+==12098== 
+==12098== 
+==12098== 1 bytes in 1 blocks are definitely lost in loss record 1 of 3
+==12098==    at 0x4021B9C: operator new[](unsigned) (vg_replace_malloc.c:195)
+==12098==    by 0x804DC3C: cSCore::runcore() (cSCore.cpp:26)
+==12098==    by 0x8049637: main (main.cpp:172)
+==12098== 
+==12098== 
+==12098== 4 bytes in 1 blocks are definitely lost in loss record 2 of 3
+==12098==    at 0x4021F0C: operator new(unsigned) (vg_replace_malloc.c:163)
+==12098==    by 0x804DC9C: cSCore::runcore() (cSCore.cpp:32)
+==12098==    by 0x8049637: main (main.cpp:172)
+==12098== 
+==12098== 
+==12098== 16 bytes in 1 blocks are definitely lost in loss record 3 of 3
+==12098==    at 0x4021F0C: operator new(unsigned) (vg_replace_malloc.c:163)
+==12098==    by 0x804DC4B: cSCore::runcore() (cSCore.cpp:27)
+==12098==    by 0x8049637: main (main.cpp:172)
+==12098== 
+==12098== LEAK SUMMARY:
+==12098==    definitely lost: 21 bytes in 3 blocks.
+==12098==      possibly lost: 0 bytes in 0 blocks.
+==12098==    still reachable: 0 bytes in 0 blocks.
+==12098==         suppressed: 0 bytes in 0 blocks.

@@ -1,0 +1,58 @@
+
+RADI8 SERVER VERSION 2.03 ALPHA
+=======================================
+Creator/Author: DAVID ESTES (CHRONO)
+CopyRight 2007,2008 UNDER GPL LICENSE
+======================================
+Patch List
+============
+01/11/2008 -- Ran Memory Checks and found invalid writing sectors, crashes resolved!!!!!!
+02/22/2005 -- Fixed Bug With Segmentation Fault in the SetTopic Function
+02/22/2005 -- Fixed Bug in the UserLogin function which would cause an occasional Seg Fault
+
+
+Welcome to Chrono's Public Alpha Testing Server For Radi8 2.0
+Please enjoy testing out this server and all of its capabilities.
+
+NOTE:
+Chrono and Geekehertz does not condone any illegal activity that could possibly be performed on this server.
+
+KEY COMMANDS:
+/join [channelname] <password> //Allows you to join a channel
+/nick [nickname] <password> //Allows you to change your username
+/tell [nick] [msg] //Send a Private Message To Someone (Will show up in their Global Window)
+/emote [msg] Allows for emoted messages 
+
+Thanks
+David Estes
+Contact E-mail: davydotcom@gmail.com
+Web Address: http://chrono.geekahertz.org
+
+NOTE: If The Server Crashes Please wait 1 MINUTE At least before retrying
+Last Server Crashes:
+
+Last Server Crashes Will Be Displayed Below
+-------------------------------------------
+
+[ERR]Server Crash:Mon Aug  4 14:19:25 EDT 2008
+[ERR]Server Crash:Thu Aug  7 09:30:56 EDT 2008
+[ERR]Server Crash:Thu Aug  7 09:30:58 EDT 2008
+[ERR]Server Crash:Wed Oct 22 16:56:22 EDT 2008
+[ERR]Server Crash:Mon Jan 26 14:01:45 EST 2009
+[ERR]Server Crash:Mon Jan 26 14:01:45 EST 2009
+[ERR]Server Crash:Mon Jan 26 14:01:47 EST 2009
+[ERR]Server Crash:Mon Jan 26 14:01:48 EST 2009
+[ERR]Server Crash:Tue Feb 24 10:27:48 EST 2009
+[ERR]Server Crash:Tue Feb 24 10:27:50 EST 2009
+[ERR]Server Crash:Sat Nov  7 11:53:00 EST 2009
+[ERR]Server Crash:Sat Nov  7 11:53:03 EST 2009
+[ERR]Server Crash:Wed Mar 24 08:31:14 EDT 2010
+[ERR]Server Crash:Wed Mar 24 08:33:23 EDT 2010
+[ERR]Server Crash:Wed Mar 24 08:45:38 EDT 2010
+[ERR]Server Crash:Wed Mar 24 09:24:20 EDT 2010
+[ERR]Server Crash:Wed Mar 24 09:24:49 EDT 2010
+[ERR]Server Crash:Wed Mar 24 09:25:01 EDT 2010
+[ERR]Server Crash:Mon Jan  7 08:01:07 EST 2013
+[ERR]Server Crash:Mon Jan  7 08:01:14 EST 2013
+[ERR]Server Crash:Tue Jul  9 15:49:48 EDT 2024
+[ERR]Server Crash:Tue Jul  9 15:50:07 EDT 2024

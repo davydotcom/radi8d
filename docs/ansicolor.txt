@@ -1,0 +1,6 @@
+-------------------------
+ANSICOLOR HEADER FILE
+-------------------------
+
+This file contains a list of strings that can be sent to the screen to perform certain operations. For example you can change the forecolor or backcolor.. Using this file you can also CLEAR the screen and move the cursor to the main position. You can also pass the NORMAL definition to restore settings to default. You can also make things bold or blink or underlined. Please look at ansicolor.h for more lists of strings.
+

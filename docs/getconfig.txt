@@ -1,0 +1,18 @@
+
+
+char *GetConfigOption(char *file,char *option)
+----------------------------------------------
+This function will retrieve a value from a declaration in the *file config file.
+For Example:
+In order To Get The MAXUSERS in radi8d.cfg you would dothis...
+
+int maxusers = atoi(GetConfigOption("radi8d.cfg","MAXUSERS"));
+
+However, There are too DEFINE's in the header file to make this function shorter and easier to type; These functions default to radi8d.cfg
+--------------------------
+GC(char *option) will return the value of an option of type char.
+GI(char *option) will return the value of an option of type int.
+--------------------------
+So the previous example could be written like this.
+int maxusers = GI("MAXUSERS");
+

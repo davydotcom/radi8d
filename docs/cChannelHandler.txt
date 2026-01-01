@@ -1,0 +1,119 @@
+------------------------------
+cChannelHandler Class Documentation
+------------------------------
+cChannelHandler Has A Special Constructor...You Must Pass Arguments to it
+--Example: cChannelHandler *Channels = new cChannelHandler(unsigned int maxchans,unsigned int maxusrs,unsigned short int defcodec,cUserHandler *userdata,cERR *errhandle)
+
+----------------
+Function DESCRIPTIONS
+----------------
+
+----------------
+Private FUNCTIONS
+----------------
+sChannels* GetChannel(int num);
+---------------------------------------------
+This Function Will Return A Pointer to One of The Channel Structs From The Linked List
+
+sBanList* GetBan(int num,char *ChannelName);
+---------------------------------------------
+This Function will Return a Pointer to one of the sBanList Structs like an array from a linked list
+
+sUserList* GetUser(int num,char *ChannelName);
+---------------------------------------------
+This Function Will Return a Pointer to one of the sUserList Structs from the specified ChannelName
+
+----------------
+PUBLIC FUNCTIONS
+----------------
+
+bool CreateChannel(char *ChannelName,char *Password,char *Topic,int chantype,int usersfd,bool ReservedOnly, bool RequireSpeakPermissions);
+----------------------------------------------
+This Function Needs To Be Called To Create A Channel. If The Channel Does Not Exist Yet Use This Function
+
+bool RemoveChannel(char *ChannelName);
+----------------------------------------------
+This Function is Used To Remove A Channel (Only Call This When No Users Are In The Channel)
+
+int JoinChannel(int usersfd,char *ChannelName,char *Password);
+----------------------------------------------
+Used For Joining Channels (This is Called if The Channel Does Exist)
+-Returns 0 For A Successful Join
+-Returns -1 if Channel Does Not Exist
+-Returns -2 If User Is Already In The Channel
+-Returns -3 For an Invalid Password
+-Returns -4 For An Unknown Error
+
+bool LeaveChannel(int usersfd,char *ChannelName);
+----------------------------------------------
+This Function is Called To Remove A User From A Channel
+
+int IsAChannel(char *ChannelName);
+----------------------------------------------
+This Function Returns The GetChannel(x) number If The Channel Exists.
+Otherwise it returns -1
+
+int IsInChannel(int usersfd,char *ChannelName);
+------------------------------------------------
+This Function is Used To See if A User Is In A Channel returns -1 if not. Else
+returns the user number for GetUser(x,ChannelName)
+
+bool SendToChannel(int usersfd,char *ChannelName,char *msg);
+------------------------------------------------
+Send A Message String To All Users In The Specified Channel
+
+char* GetUserList(char *ChannelName,int num);
+------------------------------------------------
+This Function Responds With The User In The LinkedList For The Channel Based On num....When function returns NULL that means you have reached end of UserList
+
+char* GetChannelList(int num);
+------------------------------------------------
+This Function Responds With The ChannelList In The LinkedList Based On num....When function returns NULL that means you have reached end of ChannelList
+
+bool BanUser(int fromsfd,char *ChannelName,char *username,char *hostname,int minutes,char *reason);
+------------------------------------------------
+This Function is Used To Ban A User For An Amount of Time From A Channel
+
+bool UnBanUser(int fromsfd,char *ChannelName,char *username);
+------------------------------------------------
+This Function is Used To UnBan a User From A Channel
+
+bool KickUser(int fromsfd,char *ChannelName, int usersfd,char *reason);
+------------------------------------------------
+This Function Is Used To Kick A User From A Channel
+
+char* GetTopic(char *ChannelName);
+------------------------------------------------
+Gets The Topic Of The Channel Specified
+
+bool SetTopic(int usersfd,char *ChannelName,char *Topic);
+------------------------------------------------
+Allows The ChannelAdmin to Set The Topic For the Specified Channel
+
+bool SetPassword(int usersfd,char *ChannelName,char *Password);
+------------------------------------------------
+Allows The Admin TO Set a Password....if NULL is sent to Password than channel is public
+
+bool SetChanType(int usersfd,char *ChannelName,int chantype);
+------------------------------------------------
+Allows The Admin To Change The ChanType of The Channel
+
+bool SetCodec(int usersfd,char *ChannelName,int codec);
+------------------------------------------------
+Allows The Admin To Change The Codec used in the Channel --See stdstructs.h for codec values
+
+bool SetMaxUsers(int usersfd,char *ChannelName,int maxusers);
+------------------------------------------------
+Allows The Admin To Set The MaxUsers of His/Her Channel (May Not Exceed The Servers Global MaxUsersINChannel var)
+
+bool SetReservedOnly(int usersfd,char *ChannelName,bool ReservedOnly);
+------------------------------------------------
+Allows The Admin To Set The Channel To Only Alow Users Who Are Reserved In
+
+bool SetRequireSpeakPermissions(int usersfd,char *ChannelName,bool RequireSpeakPermissions);
+------------------------------------------------
+Allows The Admin To Set The Channel To Require SpeakPermissions For Each User To Send a Message
+
+bool SetUserPermissions(int fromsfd,char *ChannelName, int usersfd,int permissions);
+------------------------------------------------
+Allows The Admin To Give a User New Permissions (NOTE: May Not exceed his own permissions)

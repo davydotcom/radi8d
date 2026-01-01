@@ -1,0 +1,39 @@
+-----------------------------
+stdstructs.h INFORMATION
+----------------------------
+
+SEE errhandle.txt for more information on the DEFINES
+----------------------
+DEFINES
+----------------------
+#define dbg(a,b,c) ErrorHandler->ProduceError(a,b,c)
+----------------------------------------
+This define simply shortens the amount of typing necessary to send a debug message
+
+#define info(a,b) ErrorHandler->ProduceError(0,a,b)
+----------------------------------------
+This define is the same idea as the dbg define but rather it defaults the error code to 0 (informative message) And takes the regular options.
+
+----------------------
+STRUCTURES
+----------------------
+
+struct sUserList()
+----------------------------------------
+This structure contains userinformation on a perchannel basis. Please look at the commenting in stdstructs.h to find out more information about this structure
+
+struct sBanList()
+----------------------------------------
+This structure holds a list of banned USERS wether it be per channel or for the entire server. Look at commenting in stdstructs.h for more information
+
+struct sFiles()
+---------------------------------------
+This structure Holds the list of files a particular user is sharing. It contains information such as filename and filesize;
+
+struct sMainUsers()
+--------------------------------------
+This structure stores the global user information that remains throughout the entire server. See stdstructs.h for more information.
+
+struct sChannels()
+---------------------------------------
+This structure contains channel information for each channel...See stdstructs.h for more information
