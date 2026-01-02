@@ -550,16 +550,16 @@ void cSCore::GetTopic(int usersfd,char *buffer)
 		if(Topic == NULL)
 		{
 
-		char *TopicData = new char[strlen(ChName)+7+10];
-		memset(TopicData,0,strlen(ChName)+7+10);
+		char *TopicData = new char[strlen(ChName)+7+10+1];
+		memset(TopicData,0,strlen(ChName)+7+10+1);
 		sprintf(TopicData,"!topic:%s:No Topic\n",ChName);
 		Socket->cs_write(usersfd,TopicData,strlen(TopicData));
 		delete [] TopicData;
 		}
 		else
 		{
-			char *TopicData = new char[strlen(ChName)+9+strlen(Topic)];
-			memset(TopicData,0,strlen(ChName)+9+strlen(Topic));
+			char *TopicData = new char[strlen(ChName)+9+strlen(Topic)+1];
+			memset(TopicData,0,strlen(ChName)+9+strlen(Topic)+1);
 			sprintf(TopicData,"!topic:%s:%s\n",ChName,Topic);
 			Socket->cs_write(usersfd,TopicData,strlen(TopicData));
 			delete [] TopicData;

@@ -65,7 +65,8 @@ int cERR::ProduceError(int errnum,char *function,char *reason)
 		if(errnum == atoi(errorNum))
 		{
 
-			buffer[strlen(buffer)-1] = '\0';
+			size_t len = strlen(buffer);
+			if(len > 0) buffer[len-1] = '\0';
 			if(isANSI){
 			if(errnum != 0)
 			fprintf(output,"%sErr%d in fn %s: %s\n%sReason:%s\n%s",FORERED,errnum,function,&buffer[(*x)+1],FOREGREEN,reason,NORMAL);
