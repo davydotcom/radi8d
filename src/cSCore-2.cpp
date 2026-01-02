@@ -179,15 +179,9 @@ case 0: //Success
 		break;
 	};
 	if(Password != NULL)
-	{
-		info("cSCore::JoinChannel","Deleting Password");
 		delete [] Password;
-	}
 	if(ChName != NULL)
-	{
-		info("cSCore::JoinChannel","Deleting ChName");
 		delete [] ChName;
-	}
 	}
 	else
 		Socket->cs_write(usersfd,"!err:lvchn:Channel Not Specified\n",33);
