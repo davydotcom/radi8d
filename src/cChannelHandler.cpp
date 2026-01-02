@@ -214,10 +214,10 @@ int cChannelHandler::JoinChannel(int usersfd,char *ChannelName,char *Password)
 		char *UserName = UserHandler->GetUserName(usersfd);
 		info("cChannelHandler::JoinCHannel","Creating Temp Buffer");
 		char *buffer = new char[strlen(UserName)+strlen(ChannelName)+50];
-		info("cChannelHandler::JoinChannel","Buffer Created");
-		bzero(buffer,strlen(UserName)+strlen(ChannelName)+50);
-		sprintf(buffer,"!usrjoind:%s:%s:%d:%d",ChannelName,UserName,temp->UserList->permissions,UserHandler->GetAcceptVoice(usersfd));
-		SendToChannel(usersfd,ChannelName,buffer);
+	info("cChannelHandler::JoinChannel","Buffer Created");
+	bzero(buffer,strlen(UserName)+strlen(ChannelName)+50);
+	sprintf(buffer,"!usrjoind:%s:%s:%d:%d\n",ChannelName,UserName,temp->UserList->permissions,UserHandler->GetAcceptVoice(usersfd));
+	SendToChannel(usersfd,ChannelName,buffer);
 		delete [] buffer;
 		return 0;
 	}
@@ -233,10 +233,10 @@ int cChannelHandler::JoinChannel(int usersfd,char *ChannelName,char *Password)
 			tempuser->next->permissions = *newperm;
 			delete newperm;
 			char *UserName = UserHandler->GetUserName(usersfd);
-		char *buffer = new char[strlen(UserName)+strlen(ChannelName)+50];
-		bzero(buffer,strlen(UserName)+strlen(ChannelName)+50);
-		sprintf(buffer,"!usrjoind:%s:%s:%d:%d",ChannelName,UserName,tempuser->next->permissions,UserHandler->GetAcceptVoice(usersfd));
-		SendToChannel(usersfd,ChannelName,buffer);
+	char *buffer = new char[strlen(UserName)+strlen(ChannelName)+50];
+	bzero(buffer,strlen(UserName)+strlen(ChannelName)+50);
+	sprintf(buffer,"!usrjoind:%s:%s:%d:%d\n",ChannelName,UserName,tempuser->next->permissions,UserHandler->GetAcceptVoice(usersfd));
+	SendToChannel(usersfd,ChannelName,buffer);
 		delete [] buffer;
 			break;
 		}
@@ -281,7 +281,7 @@ sChannels *tempchan = GetChannel(*channum);
 	char *UserName = UserHandler->GetUserName(usersfd);
 		char *buffer = new char[strlen(UserName)+19+strlen(ChannelName)];
 		bzero(buffer,strlen(UserName)+19+strlen(ChannelName));
-		sprintf(buffer,"!usrleft:%s:%s",ChannelName,UserName);
+		sprintf(buffer,"!usrleft:%s:%s\n",ChannelName,UserName);
 		SendToChannel(-1,ChannelName,buffer);
 		delete [] buffer;
 	if(GetUser(0,ChannelName) == NULL)
@@ -443,7 +443,7 @@ bool cChannelHandler::KickUser(int fromsfd,char *ChannelName, int usersfd,char *
 	// Broadcast !usrleft to all users in the channel before removing
 	char *UserName = UserHandler->GetUserName(usersfd);
 	char *usrleftMsg = new char[strlen(ChannelName) + strlen(UserName) + strlen(reason) + 20];
-	sprintf(usrleftMsg, "!usrleft:%s:%s:%s", ChannelName, UserName, reason);
+	sprintf(usrleftMsg, "!usrleft:%s:%s:%s\n", ChannelName, UserName, reason);
 	SendToChannel(-1, ChannelName, usrleftMsg);
 	delete [] usrleftMsg;
 
