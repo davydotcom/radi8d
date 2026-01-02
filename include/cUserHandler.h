@@ -24,6 +24,7 @@ class cUserHandler
 private:
 	
 	sBanList* GetBan(int num);
+	char* HashPassword(char *password);
 	bool ValidPassword(char *username, char*password);
 	bool GetUserSettings(char *username,int *DefaultPermissions,bool *acceptvoice);
 	bool SaveUserSettings(char *username);

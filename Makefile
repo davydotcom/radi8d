@@ -10,6 +10,11 @@ VERSION = 1.2
 compile: $(OBJS)
 	$(CC) src/main.cpp $(LFLAGS) $(OBJS) -o radi8d
 
+utils: hash_password
+
+hash_password:
+	$(CC) hash_password.cpp -I$(OPENSSL_PATH)/include -L$(OPENSSL_PATH)/lib -lssl -lcrypto -o hash_password
+
 errhandle.o:
 	$(CC) $(CFLAGS) src/errhandle.cpp
 cChannelHandler.o:

@@ -1,5 +1,8 @@
 #include"cUserHandler.h"
 #include<openssl/md5.h>
+#include<openssl/sha.h>
+#include<sstream>
+#include<iomanip>
 
 sMainUsers* cUserHandler::GetUser(int num)
 {
@@ -29,6 +32,27 @@ sBanList* cUserHandler::GetBan(int num)
 }
 
 //Private Functions For Reserved Users
+char* cUserHandler::HashPassword(char *password)
+{
+	if(password == NULL)
+		return NULL;
+	
+	// Hash the password using SHA-256
+	unsigned char hash[SHA256_DIGEST_LENGTH];
+	SHA256((unsigned char*)password, strlen(password), hash);
+	
+	// Convert hash to hex string
+	char *hexHash = new char[SHA256_DIGEST_LENGTH * 2 + 1];
+	memset(hexHash, 0, SHA256_DIGEST_LENGTH * 2 + 1);
+	
+	for(int i = 0; i < SHA256_DIGEST_LENGTH; i++)
+	{
+		sprintf(hexHash + (i * 2), "%02x", hash[i]);
+	}
+	
+	return hexHash;
+}
+
 bool cUserHandler::ValidPassword(char *username, char*password)
 {
 	bool IsValid = false;
@@ -36,6 +60,17 @@ bool cUserHandler::ValidPassword(char *username, char*password)
 		return false;
 	FILE *Users = NULL;
 	Users = fopen(userfile,"r");
+	if(Users == NULL)
+		return false;
+	
+	// Hash the input password
+	char *hashedPassword = HashPassword(password);
+	if(hashedPassword == NULL)
+	{
+		fclose(Users);
+		return false;
+	}
+	
 	char *buffer = new char[255];
 	while(!feof(Users))
 	{
@@ -55,7 +90,8 @@ bool cUserHandler::ValidPassword(char *username, char*password)
 			
 			if(!strcmp(ArgumentValue,username))
 			{
-				if(!strcmp(PasswordValue,password))
+				// Compare the hashed password with the stored hash
+				if(!strcmp(PasswordValue,hashedPassword))
 				{
 					IsValid = true;
 					delete [] ArgumentValue;
@@ -75,6 +111,7 @@ bool cUserHandler::ValidPassword(char *username, char*password)
 		}
 	}
 	delete [] buffer;
+	delete [] hashedPassword;
 	fclose(Users);
 	return IsValid;
 }

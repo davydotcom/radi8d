@@ -40,6 +40,7 @@ void UserList(int usersfd, char *buffer);
 void SendMOTD(int usersfd);
 void SetTopic(int usersfd,char *buffer);
 void GetTopic(int usersfd,char *buffer);
+void KickUser(int usersfd,char *buffer);
 public:
 bool enabled;
 void runcore(void);

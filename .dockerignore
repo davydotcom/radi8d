@@ -1,0 +1,36 @@
+# Git
+.git
+.gitignore
+
+# Build artifacts
+*.o
+radi8d
+hash_password
+test_ssl_*
+
+# macOS
+.DS_Store
+
+# Documentation
+docs/
+*.md
+!README.md
+
+# Test files
+*.log
+val.log.*
+
+# Generated certificates (will be created at runtime if needed)
+*.crt
+*.key
+*.pem
+
+# Archives
+*.tar
+*.gz
+
+# Debug symbols
+*.dSYM
+
+# Profiles directory contents (will be created at runtime)
+profiles/*

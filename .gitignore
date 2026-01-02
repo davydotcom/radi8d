@@ -1,6 +1,7 @@
 # Compiled binaries
 radi8d
 radi8d-ChanTest
+hash_password
 
 # Object files
 *.o

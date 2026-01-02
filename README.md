@@ -141,6 +141,61 @@ For detailed SSL/TLS documentation, see [SSL_README.md](SSL_README.md).
    openssl s_client -connect localhost:1337 -brief
    ```
 
+## User Authentication
+
+radi8d supports reserved user accounts with SHA-256 hashed passwords stored in the `radi8d.usr` file.
+
+### User File Format
+
+The `radi8d.usr` file uses the following format:
+```
+username:sha256_hash:permissions:allowvoice
+```
+
+- **username**: The user's login name
+- **sha256_hash**: SHA-256 hash of the password (64 hex characters)
+- **permissions**: Permission level (0-999, where 999 is admin)
+- **allowvoice**: Voice chat enabled (0 or 1)
+
+### Creating Password Hashes
+
+1. **Build the hash utility**:
+   ```bash
+   make utils
+   ```
+
+2. **Generate a password hash**:
+   ```bash
+   ./hash_password "yourpassword"
+   ```
+   This outputs a SHA-256 hash that you can copy into `radi8d.usr`.
+
+3. **Add user to radi8d.usr**:
+   ```
+   myuser:5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8:999:1
+   ```
+
+### Example
+
+```bash
+# Generate hash for password "secret123"
+./hash_password "secret123"
+# Output: 8bb6118f8fd6935ad0876a3be34a717d32708ffd8a8f08fb4bdc5b5df64e6c5d
+
+# Add to radi8d.usr
+echo "admin:8bb6118f8fd6935ad0876a3be34a717d32708ffd8a8f08fb4bdc5b5df64e6c5d:999:1" >> radi8d.usr
+```
+
+### Security Notes
+
+- Passwords are never stored in plain text
+- SHA-256 provides strong one-way hashing
+- Always use strong, unique passwords for user accounts
+- The `radi8d.usr` file should be kept secure with appropriate file permissions:
+  ```bash
+  chmod 600 radi8d.usr
+  ```
+
 ## Project Structure
 
 ```

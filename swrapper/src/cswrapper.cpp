@@ -25,17 +25,39 @@ int cswrapper::cs_write(int sfd, char *str,int len)
 	if(useSSL && ssl_sessions.find(sfd) != ssl_sessions.end())
 	{
 		SSL *ssl = ssl_sessions[sfd];
-		return SSL_write(ssl, str, len);
+		int bytes = SSL_write(ssl, str, len);
+		
+		// Flush SSL buffer to ensure data is sent immediately
+		if(bytes > 0)
+		{
+			BIO_flush(SSL_get_wbio(ssl));
+		}
+		
+		// Debug logging
+		FILE *debug = fopen("/tmp/radi8d_ssl_debug.log", "a");
+		if(debug)
+		{
+			fprintf(debug, "[SERVER SSL_WRITE] sfd=%d len=%d bytes_written=%d\n", sfd, len, bytes);
+			if(bytes > 0)
+			{
+				fprintf(debug, "[SERVER SSL_WRITE DATA] '");
+				for(int i = 0; i < len && i < bytes; i++)
+				{
+					if(str[i] == '\n') fprintf(debug, "\\n");
+					else if(str[i] == '\r') fprintf(debug, "\\r");
+					else fprintf(debug, "%c", str[i]);
+				}
+				fprintf(debug, "'\n");
+			}
+			fflush(debug);
+			fclose(debug);
+		}
+		
+		return bytes;
 	}
 	
-	printf("Writing\n");	
-	int actuallength = strlen(str);
-	bzero(TheData,1024);
-	printf("thedata created\n");
-	sprintf(TheData,"%s",str);
-	int returnval=0;
-	returnval = s_write(sfd,TheData,actuallength);
-	return returnval;
+	// Write directly using the provided length
+	return s_write(sfd, str, len);
 }
 
 int cswrapper::cs_read(int sfd,char *str, int len)
@@ -44,7 +66,38 @@ int cswrapper::cs_read(int sfd,char *str, int len)
 	if(useSSL && ssl_sessions.find(sfd) != ssl_sessions.end())
 	{
 		SSL *ssl = ssl_sessions[sfd];
-		return SSL_read(ssl, str, len);
+		int bytes = SSL_read(ssl, str, len);
+		
+		// Debug logging
+		FILE *debug = fopen("/tmp/radi8d_ssl_debug.log", "a");
+		if(debug)
+		{
+			fprintf(debug, "[SERVER SSL_READ] sfd=%d len=%d bytes_read=%d\n", sfd, len, bytes);
+			if(bytes > 0)
+			{
+				fprintf(debug, "[SERVER SSL_READ DATA] '");
+				for(int i = 0; i < bytes; i++)
+				{
+					if(str[i] == '\n') fprintf(debug, "\\n");
+					else if(str[i] == '\r') fprintf(debug, "\\r");
+					else fprintf(debug, "%c", str[i]);
+				}
+				fprintf(debug, "'\n");
+			}
+			else if(bytes <= 0)
+			{
+				int ssl_err = SSL_get_error(ssl, bytes);
+				fprintf(debug, "[SERVER SSL_READ ERROR] SSL_get_error=%d\n", ssl_err);
+				if(ssl_err == SSL_ERROR_SYSCALL)
+				{
+					fprintf(debug, "[SERVER SSL_READ ERROR] errno=%d\n", errno);
+				}
+			}
+			fflush(debug);
+			fclose(debug);
+		}
+		
+		return bytes;
 	}
 	
 	return read(sfd,str,len);

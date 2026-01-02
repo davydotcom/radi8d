@@ -349,21 +349,19 @@ bool cChannelHandler::SendToChannel(int usersfd,char *ChannelName,char *msg)
 	{
 		if(tempuser == NULL)
 			break;
-		printf("looping\n");
 		if(tempuser->sfd != usersfd)
 		{
-			printf("SFD: %d\n",tempuser->sfd);
 			Socket->cs_write(tempuser->sfd,msg,strlen(msg));
 			
 		}
 		
-		tempuser = tempuser->next;
-		info("cChannelHandler::SendToChannel","Next Object");
-	}
-	info("cChannelHandler::SendToChannel","Out of Loop");
+	tempuser = tempuser->next;
+	
+}
+
 	delete channum;
 	delete usernum;
-	info("cChannelHandler::SendToChannel","Returning Success");
+	
 	return true;
 }
 char* cChannelHandler::GetUserList(char *ChannelName,int num)
@@ -436,6 +434,13 @@ bool cChannelHandler::KickUser(int fromsfd,char *ChannelName, int usersfd,char *
 	sprintf(buffer,"!die:%s:kick:%s\0",ChannelName,reason);
 	Socket->cs_write(usersfd,buffer,strlen(buffer));
 	delete [] buffer;
+	
+	// Broadcast !usrleft to all users in the channel before removing
+	char *UserName = UserHandler->GetUserName(usersfd);
+	char *usrleftMsg = new char[strlen(ChannelName) + strlen(UserName) + strlen(reason) + 20];
+	sprintf(usrleftMsg, "!usrleft:%s:%s:%s", ChannelName, UserName, reason);
+	SendToChannel(-1, ChannelName, usrleftMsg);
+	delete [] usrleftMsg;
 
 	sChannels *tempchan;
 	tempchan=GetChannel(*channum);

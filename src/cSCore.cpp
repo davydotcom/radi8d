@@ -77,7 +77,6 @@ void cSCore::runcore(void)
 		}
 		else
 		{
-			ErrorHandler->ProduceError(0,"cSCore::runcore()","Data Received");
 			tempuser = UserHandler->GetUser(0);
 			//ErrorHandler->ProduceError(0,"cSCore::runcore()","UserPtr Caught");
 			while(tempuser != NULL)
@@ -89,7 +88,6 @@ void cSCore::runcore(void)
 					*nsfd = tempuser->sfd;
 					//ErrorHandler->ProduceError(0,"cSCore::runcore()","reading data");
 					returnval = Socket->cs_read(*nsfd,charbuffer,1);
-					printf("Buffer value: %d\n",int(charbuffer[0]));
 					//Check For Disconnects
 					if(returnval == 0)
 					{
@@ -130,7 +128,7 @@ void cSCore::runcore(void)
             }
             else if((tempuser->webSocketByteCount < 0 || tempuser->webSocketByteCount == 8) && (int(charbuffer[0]) == -1 || charbuffer[0] == '\n') ) //Byte 255
 						{
-                printf("Command Line: %s\n",buffer);
+							  
 							  this->parsecmd(*nsfd,tempuser->UserBuffer->buffer);
               if(tempuser->UserBuffer->strsize == 1 && tempuser->isWebSocketProtocol && tempuser->webSocketByteCount < 0)
               {
@@ -144,9 +142,9 @@ void cSCore::runcore(void)
 							tempuser->UserBuffer->buffer[(tempuser->UserBuffer->strsize)] = charbuffer[0];
 							(tempuser->UserBuffer->strsize)++;
 						}
-						else if((tempuser->UserBuffer->buffersize) < 1024)
-						{
-							(tempuser->UserBuffer->buffersize) += 5;
+					else if((tempuser->UserBuffer->buffersize) < 131072)
+					{
+						(tempuser->UserBuffer->buffersize) += 512;
 							buffer = new char[(tempuser->UserBuffer->buffersize)];
 							memset(buffer,0,(tempuser->UserBuffer->buffersize));
 							char *temp = tempuser->UserBuffer->buffer;

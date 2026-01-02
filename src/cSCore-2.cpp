@@ -21,8 +21,8 @@ void cSCore::parsecmd(int usersfd,char *buffer)
 
 	if(buffer[0] == '!')
 	{
-		char *cmd  = GetArg(0,buffer,':');
-		info("Command From parsecmd",cmd);
+	char *cmd  = GetArg(0,buffer,':');
+	// info("Command From parsecmd",cmd);
 		if(cmd != NULL)
 		{
 			if(!strcmp(cmd,"!name")) //Name Change Requested
@@ -71,6 +71,10 @@ void cSCore::parsecmd(int usersfd,char *buffer)
 			else if(!memcmp(cmd,"!motd",5))
 			{
 				SendMOTD(usersfd);
+			}
+			else if(!strcmp(cmd,"!kick"))
+			{
+				KickUser(usersfd,buffer);
 			}
 			delete [] cmd;
 		}
@@ -127,7 +131,7 @@ void cSCore::JoinChannel(int usersfd,char *buffer)
 	int returnval;
 
 	char *ChName = GetArg(1,buffer,':');
-	printf("ChName = %s\n",ChName);
+	info("cSCore::JoinChannel",ChName);
 	char *Password = GetArg(2,buffer,':');
 	if(ChName != NULL)
 	{
@@ -151,9 +155,9 @@ void cSCore::JoinChannel(int usersfd,char *buffer)
 		info("cSCore::JoinChannel","Channel Join Called");
 		switch(returnval)
 		{
-		case 0: //Success
-			sprintf(newCommand,"!apr:jnchn:%s",ChName);
-			Socket->cs_write(usersfd,newCommand,10+strlen(ChName));			
+	case 0: //Success
+		sprintf(newCommand,"!apr:jnchn:%s",ChName);
+		Socket->cs_write(usersfd,newCommand,11+strlen(ChName));
 			break;
 		case -1: //Channel Does Not Exist
 			Socket->cs_write(usersfd,"!err:jnchn:Failed To Create Channel",35);		
@@ -182,7 +186,7 @@ void cSCore::LeaveChannel(int usersfd,char *buffer)
 {
 bool returnval;
 	char *ChName = GetArg(1,buffer,':');
-	printf("ChName = %s\n",ChName);
+	info("cSCore::LeaveChannel",ChName);
 	
 	if(ChName != NULL)
 	{
@@ -202,8 +206,7 @@ void cSCore::Message(int usersfd,char *buffer)
 {
 bool returnval;
 	char *ChName = GetArg(1,buffer,':');
-	printf("ChName = %s\n",ChName);
-	
+//	dbg(1,"cSCore::Message",ChName);
 	if(ChName != NULL)
 	{
 		if(!strcmp(ChName,"user"))
@@ -223,14 +226,15 @@ bool returnval;
 					delete [] TheMsg;
 					delete TheirSFD;
 				}
-				else
-				{
-				char *FromUser = UserHandler->GetUserName(usersfd);
-				info("cSCore::Message","Declaring Buffer");
-				char *buffer2 = new char[44 + strlen(TheMsg)];
-				memset(buffer2,0,44 + strlen(TheMsg));
-				info("cSCore::Message","Buffer Declared");
-				sprintf(buffer2,"!usrmsg:user:%s:%s",FromUser,TheMsg);
+			else
+			{
+			char *FromUser = UserHandler->GetUserName(usersfd);
+			info("cSCore::Message","Declaring Buffer");
+			int buffer2_size = 19 + strlen(FromUser) + strlen(TheMsg);
+			char *buffer2 = new char[buffer2_size];
+			memset(buffer2,0,buffer2_size);
+			info("cSCore::Message","Buffer Declared");
+			sprintf(buffer2,"!usrmsg:user:%s:%s",FromUser,TheMsg);
 				Socket->cs_write(*TheirSFD,buffer2,strlen(buffer2));
 				delete [] buffer2;
 				delete [] TheMsg;
@@ -248,19 +252,20 @@ bool returnval;
 		}
 		else
 		{
-			char *TheMsg = GetArg(2,buffer,':');
-			if(TheMsg != NULL)
-			{
-				char *FromUser = UserHandler->GetUserName(usersfd);
-				
-				
-				
-				
-				char *buffer2 = new char[66 + strlen(TheMsg)];
-				
-				memset(buffer2,0,66 + strlen(TheMsg));
-				
-				sprintf(buffer2,"!usrmsg:%s:%s:%s",ChName,FromUser,TheMsg);	
+		char *TheMsg = GetArg(2,buffer,':');
+		if(TheMsg != NULL)
+		{
+			char *FromUser = UserHandler->GetUserName(usersfd);
+			
+			
+			
+			
+			int buffer2_size = 13 + strlen(ChName) + strlen(FromUser) + strlen(TheMsg);
+			char *buffer2 = new char[buffer2_size];
+			
+			memset(buffer2,0,buffer2_size);
+			
+			sprintf(buffer2,"!usrmsg:%s:%s:%s",ChName,FromUser,TheMsg);
 				
 				returnval = ChannelHandler->SendToChannel(usersfd,ChName,buffer2);
 				
@@ -286,16 +291,21 @@ void cSCore::ChangeName(int usersfd,char *buffer)
 	
 	if(NewName != NULL)
 	{
+		// Log the name change request
+		char *logMsg = new char[256];
+		snprintf(logMsg, 256, "User requesting name change to: %s", NewName);
+		info("cSCore::ChangeName", logMsg);
+		delete [] logMsg;
 		char *Password = GetArg(2,buffer,':');
 		char *Temp = UserHandler->GetUserName(usersfd);
 		char *OldName = new char[26];
 		memset(OldName,0,26);
 		strcpy(OldName,Temp);
 		returnval = UserHandler->SetName(usersfd,NewName,Password);
-		switch(returnval)
+	switch(returnval)
 		{
 		case 0:
-			Socket->cs_write(usersfd,"!apr:name",9);
+			Socket->cs_write(usersfd,"!apr:name\n",10);
 			ChannelHandler->UserNameChange(usersfd,OldName);
 			break;
 		case -1:
@@ -346,12 +356,13 @@ bool returnval;
 					delete [] TheMsg;
 					delete TheirSFD;
 				}
-				else
-				{
-				char *FromUser = UserHandler->GetUserName(usersfd);
-				char *buffer2 = new char[44 + strlen(TheMsg)];
-				memset(buffer2,0,44 + strlen(TheMsg));
-				sprintf(buffer2,"!usremt:user:%s:%s",FromUser,TheMsg);
+			else
+			{
+			char *FromUser = UserHandler->GetUserName(usersfd);
+			int buffer2_size = 19 + strlen(FromUser) + strlen(TheMsg);
+			char *buffer2 = new char[buffer2_size];
+			memset(buffer2,0,buffer2_size);
+			sprintf(buffer2,"!usremt:user:%s:%s",FromUser,TheMsg);
 				Socket->cs_write(*TheirSFD,buffer2,strlen(buffer2));
 				delete [] buffer2;
 				delete [] TheMsg;
@@ -369,19 +380,20 @@ bool returnval;
 		}
 		else
 		{
-			char *TheMsg = GetArg(2,buffer,':');
-			if(TheMsg != NULL)
-			{
-				char *FromUser = UserHandler->GetUserName(usersfd);
-				
-				
-				
-				
-				char *buffer2 = new char[66 + strlen(TheMsg)];
-				
-				memset(buffer2,0,66 + strlen(TheMsg));
-				
-				sprintf(buffer2,"!usremt:%s:%s:%s",ChName,FromUser,TheMsg);	
+		char *TheMsg = GetArg(2,buffer,':');
+		if(TheMsg != NULL)
+		{
+			char *FromUser = UserHandler->GetUserName(usersfd);
+			
+			
+			
+			
+			int buffer2_size = 13 + strlen(ChName) + strlen(FromUser) + strlen(TheMsg);
+			char *buffer2 = new char[buffer2_size];
+			
+			memset(buffer2,0,buffer2_size);
+			
+			sprintf(buffer2,"!usremt:%s:%s:%s",ChName,FromUser,TheMsg);
 				
 				returnval = ChannelHandler->SendToChannel(usersfd,ChName,buffer2);
 				
@@ -422,12 +434,13 @@ void cSCore::SendMOTD(int usersfd)
 	
 	// Process and send in chunks with escaping
 	const int CHUNK_SIZE = 128;
-	char *chunk = new char[CHUNK_SIZE * 2 + 7]; // Account for escaping overhead
+	const int BUFFER_SIZE = 6 + CHUNK_SIZE + 50; // prefix + max content + safety margin
+	char *chunk = new char[BUFFER_SIZE];
 	
 	int filepos = 0;
 	while(filepos < filesize)
 	{
-		memset(chunk, 0, CHUNK_SIZE * 2 + 7);
+		memset(chunk, 0, BUFFER_SIZE);
 		strcpy(chunk, "!motd:");
 		int chunkpos = 6;
 		int chunkchars = 0;
@@ -437,7 +450,7 @@ void cSCore::SendMOTD(int usersfd)
 		{
 			if(filebuffer[filepos] == '\n')
 			{
-				if(chunkchars + 4 <= CHUNK_SIZE)
+				if(chunkchars + 4 <= CHUNK_SIZE && chunkpos + 4 < BUFFER_SIZE)
 				{
 					strcpy(&chunk[chunkpos], "<nl>");
 					chunkpos += 4;
@@ -454,7 +467,7 @@ void cSCore::SendMOTD(int usersfd)
 			}
 			else if(filebuffer[filepos] == ':')
 			{
-				if(chunkchars + 7 <= CHUNK_SIZE)
+				if(chunkchars + 7 <= CHUNK_SIZE && chunkpos + 7 < BUFFER_SIZE)
 				{
 					strcpy(&chunk[chunkpos], "<colon>");
 					chunkpos += 7;
@@ -466,7 +479,7 @@ void cSCore::SendMOTD(int usersfd)
 			}
 			else
 			{
-				if(chunkchars + 1 <= CHUNK_SIZE)
+				if(chunkchars + 1 <= CHUNK_SIZE && chunkpos + 1 < BUFFER_SIZE)
 				{
 					chunk[chunkpos] = filebuffer[filepos];
 					chunkpos++;
@@ -613,5 +626,74 @@ void cSCore::UserList(int usersfd, char *buffer)
 	}
 	else
 		Socket->cs_write(usersfd,"!err:userlist:Channel Name Not Specified",40);
+}
+void cSCore::KickUser(int usersfd, char *buffer)
+{
+	char *ChName = GetArg(1,buffer,':');
+	if(ChName == NULL)
+	{
+		Socket->cs_write(usersfd,"!err:kick:Channel Not Specified",31);
+		return;
+	}
+	
+	char *UserName = GetArg(2,buffer,':');
+	if(UserName == NULL)
+	{
+		Socket->cs_write(usersfd,"!err:kick:Username Not Specified",32);
+		delete [] ChName;
+		return;
+	}
+	
+	char *Reason = GetArg(3,buffer,':');
+	if(Reason == NULL)
+	{
+		// Default reason if none provided
+		Reason = new char[8];
+		strcpy(Reason,"Kicked");
+	}
+	
+	// Get the socket fd of the user to be kicked
+	int targetSfd = UserHandler->GetSFD(UserName);
+	if(targetSfd == -1)
+	{
+		Socket->cs_write(usersfd,"!err:kick:User Not Found",24);
+		delete [] ChName;
+		delete [] UserName;
+		delete [] Reason;
+		return;
+	}
+	
+	// Check if user is in the channel
+	if(ChannelHandler->IsInChannel(targetSfd, ChName) == -1)
+	{
+		Socket->cs_write(usersfd,"!err:kick:User Not In Channel",29);
+		delete [] ChName;
+		delete [] UserName;
+		delete [] Reason;
+		return;
+	}
+	
+	// Log the kick attempt
+	char *logMsg = new char[256];
+	char *kickerName = UserHandler->GetUserName(usersfd);
+	snprintf(logMsg, 256, "User %s attempting to kick %s from %s", kickerName, UserName, ChName);
+	info("cSCore::KickUser", logMsg);
+	delete [] logMsg;
+	
+	// Attempt to kick the user (this will also broadcast !usrleft to the channel)
+	bool result = ChannelHandler->KickUser(usersfd, ChName, targetSfd, Reason);
+	
+	if(result)
+	{
+		Socket->cs_write(usersfd,"!apr:kick",9);
+	}
+	else
+	{
+		Socket->cs_write(usersfd,"!err:kick:Permission Denied or Unable to Kick",45);
+	}
+	
+	delete [] ChName;
+	delete [] UserName;
+	delete [] Reason;
 }
 
