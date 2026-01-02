@@ -77,6 +77,14 @@ int s_serve (int port) {
 		return -1;
 	}
 
+	/*Set SO_REUSEADDR to allow immediate port reuse*/
+	int optval = 1;
+	if (setsockopt(sfd, SOL_SOCKET, SO_REUSEADDR, &optval, sizeof(optval)) < 0) {
+		perror("s_serve >> setsockopt(SO_REUSEADDR)");
+		close(sfd);
+		return -1;
+	}
+
 	/*Setup sockaddr structure*/
 	host.sin_family = family;
 	host.sin_port = htons(port);

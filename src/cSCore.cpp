@@ -15,6 +15,7 @@
 //====================
 #include"cSCore.h"
 #include"getarg.h"
+#include <fstream>
 void cSCore::runcore(void)
 {
 	/*Lets Initialize Some Variables*/
@@ -29,9 +30,6 @@ void cSCore::runcore(void)
 	fd_set *master = new fd_set;
 	memset(charbuffer,0,1);
 	*lsfd = Socket->cs_serve(Port);
-	int *optval = new int;
-	*optval = 1;
-	setsockopt(*lsfd,SOL_SOCKET,SO_REUSEADDR,optval,sizeof(*optval));
 	//FD_ZERO(cset);
 	FD_ZERO(master);
 	FD_ZERO(cset);
@@ -88,6 +86,9 @@ void cSCore::runcore(void)
 					*nsfd = tempuser->sfd;
 					//ErrorHandler->ProduceError(0,"cSCore::runcore()","reading data");
 					returnval = Socket->cs_read(*nsfd,charbuffer,1);
+					
+					// Debug logging
+					
 					//Check For Disconnects
 					if(returnval == 0)
 					{
@@ -112,15 +113,15 @@ void cSCore::runcore(void)
 					}
 					else
 					{
+						
             if(tempuser->isWebSocketProtocol)
             {
              if(tempuser->webSocketByteCount == 0 && tempuser->UserBuffer->strsize == 7)
              {
-               printf("We Have the Challenge!");
+               
               tempuser->webSocketByteCount = 7;
              }
-             {
-             }
+             
             }
             if(tempuser->webSocketByteCount == 8 && int(charbuffer[0]) == 0)
             {
@@ -177,8 +178,16 @@ void cSCore::runcore(void)
 							(tempuser->UserBuffer->done) = false;
 							delete [] temp;
 						}
+						
 					
+					}
 					
+					// If there's pending SSL data, restart the loop to process more data from this socket
+					if(Socket->ssl_pending(*nsfd) > 0)
+					{
+						// Restart from the beginning of the user list so we process this socket again
+						tempuser = UserHandler->GetUser(0);
+						continue;
 					}
 					break;
 				}
@@ -194,7 +203,6 @@ void cSCore::runcore(void)
 	delete nsfd;
 	delete maxfd;
 	delete lsfd;
-	delete optval;
 	delete newc;
 	delete [] charbuffer;
 }

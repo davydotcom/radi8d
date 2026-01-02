@@ -14,6 +14,8 @@ int cswrapper::cs_serve(int port)
 	return s_serve(port);
 }
 
+
+
 int cswrapper::cs_write(int sfd, char *str,int len)
 {
 	if(str == NULL)
@@ -24,6 +26,7 @@ int cswrapper::cs_write(int sfd, char *str,int len)
 	// Check if this socket is using SSL
 	if(useSSL && ssl_sessions.find(sfd) != ssl_sessions.end())
 	{
+		
 		SSL *ssl = ssl_sessions[sfd];
 		int bytes = SSL_write(ssl, str, len);
 		
@@ -34,7 +37,7 @@ int cswrapper::cs_write(int sfd, char *str,int len)
 		}
 		
 		return bytes;
-	}
+	} 
 	
 	// Write directly using the provided length
 	return s_write(sfd, str, len);
@@ -51,7 +54,10 @@ int cswrapper::cs_read(int sfd,char *str, int len)
 		return bytes;
 	}
 	
-	return read(sfd,str,len);
+	
+	int bytes = read(sfd,str,len);
+	
+	return bytes;
 }
 
 int cswrapper::generate_self_signed_cert()
@@ -241,6 +247,18 @@ void cswrapper::cs_close_ssl(int sfd)
 		SSL_free(ssl);
 		ssl_sessions.erase(sfd);
 	}
+}
+
+int cswrapper::ssl_pending(int sfd)
+{
+	if(useSSL && ssl_sessions.find(sfd) != ssl_sessions.end())
+	{
+		SSL *ssl = ssl_sessions[sfd];
+		int pending = SSL_pending(ssl);
+		
+		return pending;
+	}
+	return 0;
 }
 
 void cswrapper::cleanup_ssl()

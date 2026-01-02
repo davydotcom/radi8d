@@ -15,9 +15,10 @@
 //====================
 #include"cSCore.h"
 #include"getarg.h"
+#include <fstream>
 void cSCore::parsecmd(int usersfd,char *buffer)
 {
-
+	
 
 	if(buffer[0] == '!')
 	{

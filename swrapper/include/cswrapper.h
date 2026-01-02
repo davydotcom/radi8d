@@ -11,6 +11,7 @@ cSWrapper Library Is A Class Interface for the Swrapper Functions
 #include <openssl/rsa.h>
 #include <openssl/pem.h>
 #include <map>
+#include <fstream>
 
 class cswrapper
 {
@@ -21,6 +22,7 @@ private:
 	char *cert_path;
 	char *key_path;
 	bool using_self_signed;
+	
 	
 	int generate_self_signed_cert();
 	void cleanup_ssl();
@@ -37,6 +39,7 @@ public:
 	int cs_accept_ssl(int listen_sfd, int client_sfd);
 	void cs_close_ssl(int sfd);
 	bool is_ssl_enabled() { return useSSL; }
+	int ssl_pending(int sfd);
 	
 	cswrapper()
 	{
@@ -46,6 +49,7 @@ public:
 		cert_path = NULL;
 		key_path = NULL;
 		using_self_signed = false;
+		
 	};
 	~cswrapper()
 	{
@@ -53,6 +57,7 @@ public:
 		cleanup_ssl();
 		if(cert_path) delete [] cert_path;
 		if(key_path) delete [] key_path;
+		
 	}
 
 };
