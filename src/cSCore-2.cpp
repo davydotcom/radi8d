@@ -149,36 +149,38 @@ void cSCore::JoinChannel(int usersfd,char *buffer)
 			}
 			
 		}
-		info("cSCore::JoinChannel","Joining Channel");
-		returnval = ChannelHandler->JoinChannel(usersfd,ChName,Password);
-		char *newCommand = new char[strlen(ChName)+10];
-		info("cSCore::JoinChannel","Channel Join Called");
-		switch(returnval)
-		{
-	case 0: //Success
+	info("cSCore::JoinChannel","Joining Channel");
+	returnval = ChannelHandler->JoinChannel(usersfd,ChName,Password);
+	info("cSCore::JoinChannel","Channel Join Called");
+	switch(returnval)
+	{
+case 0: //Success
+	{
+		char *newCommand = new char[strlen(ChName)+13];
 		sprintf(newCommand,"!apr:jnchn:%s\n",ChName);
 		Socket->cs_write(usersfd,newCommand,12+strlen(ChName));
-			break;
-		case -1: //Channel Does Not Exist
-			Socket->cs_write(usersfd,"!err:jnchn:Failed To Create Channel\n",36);
-			break;
-		case -2: //User Already In Channel
-			Socket->cs_write(usersfd,"!err:jnchn:Already In Channel\n",30);
-			break;
-		case -3:// Invalid Password
-			Socket->cs_write(usersfd,"!err:jnchn:Invalid Password\n",28);
-			break;
-		case -4://Unknown Error (Should Never Happen)
-			Socket->cs_write(usersfd,"!err:jnchn:Unknown Error\n",25);
-			break;
-		case -5://Reserved Users Only
-			Socket->cs_write(usersfd,"!err:jnchn:This Channel Is For Reserved Users Only\n",51);
-			break;
-		};
-		if(Password != NULL)
-			delete [] Password;
-		delete [] ChName;
 		delete [] newCommand;
+	}
+		break;
+	case -1: //Channel Does Not Exist
+		Socket->cs_write(usersfd,"!err:jnchn:Failed To Create Channel\n",36);
+		break;
+	case -2: //User Already In Channel
+		Socket->cs_write(usersfd,"!err:jnchn:Already In Channel\n",30);
+		break;
+	case -3:// Invalid Password
+		Socket->cs_write(usersfd,"!err:jnchn:Invalid Password\n",28);
+		break;
+	case -4://Unknown Error (Should Never Happen)
+		Socket->cs_write(usersfd,"!err:jnchn:Unknown Error\n",25);
+		break;
+	case -5://Reserved Users Only
+		Socket->cs_write(usersfd,"!err:jnchn:This Channel Is For Reserved Users Only\n",51);
+		break;
+	};
+	if(Password != NULL)
+		delete [] Password;
+	delete [] ChName;
 	}
 	else
 		Socket->cs_write(usersfd,"!err:lvchn:Channel Not Specified\n",33);
