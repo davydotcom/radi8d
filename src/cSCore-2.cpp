@@ -178,6 +178,7 @@ void cSCore::JoinChannel(int usersfd,char *buffer)
 		if(Password != NULL)
 			delete [] Password;
 		delete [] ChName;
+		delete [] newCommand;
 	}
 	else
 		Socket->cs_write(usersfd,"!err:lvchn:Channel Not Specified",32);
@@ -515,22 +516,25 @@ void cSCore::ChannelList(int usersfd)
 		*NumberUsers = ChannelHandler->GetNumberUsers(ChannelName);
 		if(Topic == NULL)
 		{
-			char *buffer = new char[50];
-			memset(buffer,0,50);
-			sprintf(buffer,"!chanadd:%s:%d",ChannelName,*NumberUsers);
+			char *buffer = new char[64];
+			memset(buffer,0,64);
+			sprintf(buffer,"!chanadd:%s:%d\n",ChannelName,*NumberUsers);
 			Socket->cs_write(usersfd,buffer,strlen(buffer));
 			delete [] buffer;
 		}
 		else
 		{
-		char *buffer = new char[50 + strlen(Topic)];
-			memset(buffer,0,50 + strlen(Topic));
-			sprintf(buffer,"!chanadd:%s:%d:%s",ChannelName,*NumberUsers,Topic);
+			// Include topic in the same line and terminate with newline
+			char *buffer = new char[64 + strlen(Topic)];
+			memset(buffer,0,64 + strlen(Topic));
+			sprintf(buffer,"!chanadd:%s:%d:%s\n",ChannelName,*NumberUsers,Topic);
 			Socket->cs_write(usersfd,buffer,strlen(buffer));
 			delete [] buffer;
 		}
 		
 	}
+	// Per docs: send channels until #EOF received by client
+	Socket->cs_write(usersfd,"#EOF\n",5);
 	delete NumberUsers;
 }
 void cSCore::GetTopic(int usersfd,char *buffer)

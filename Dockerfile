@@ -15,10 +15,11 @@ WORKDIR /build
 COPY src/ ./src/
 COPY include/ ./include/
 COPY swrapper/ ./swrapper/
-COPY Makefile .
+COPY hash_password.cpp .
+COPY Makefile.docker ./Makefile
 
-# Build the server and utilities
-RUN make compile && make utils
+# Clean any stale object files and build
+RUN find . -name '*.o' -delete && make compile && make utils
 
 # Runtime stage
 FROM ubuntu:22.04

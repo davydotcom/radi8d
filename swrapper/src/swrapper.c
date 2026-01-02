@@ -106,6 +106,18 @@ Writes given data to specified socket and checks to make sure it all was sent.
 */
 int s_write (int sfd, char *str,int len) {
 	int x, t;
+	
+	/* Validate file descriptor before attempting to write */
+	if (sfd < 0) {
+		return -1;
+	}
+	
+	/* Use fcntl to check if the file descriptor is valid */
+	if (fcntl(sfd, F_GETFL) == -1) {
+		/* File descriptor is not valid (likely closed) */
+		return -1;
+	}
+	
 	for (x = 0; x <= (len-1); x += 0) {
 		t = 0;
 		t = write(sfd, str, len); 

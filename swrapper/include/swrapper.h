@@ -17,6 +17,7 @@ Basic networking functions which simplify the task of using sockets.
 
 #include <unistd.h>
 #include <errno.h>
+#include <fcntl.h>
 
 /*
 Used by s_serve for a parameter needed in the listen() function.

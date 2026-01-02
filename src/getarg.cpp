@@ -17,14 +17,14 @@ char *GetArg(int arg,char *ArgString,char Delim)
 		for(x=0;ArgString[x+1] != Delim && ArgString[x+1] != '\0';x++){}
 		if(ArgString[x] == '\0')
 		{
-			returnarg = new char[strlen(ArgString)];
-			bzero(returnarg,strlen(ArgString));
+			returnarg = new char[strlen(ArgString)+1];
+			bzero(returnarg,strlen(ArgString)+1);
 			strcpy(returnarg,ArgString);
 		}
 		else
 		{
 			returnarg = new char[x+2];
-			bzero(returnarg,x+1);
+			bzero(returnarg,x+2);
 			memcpy(returnarg,ArgString,(x)+1);
 			returnarg[x+1] = '\0';
 		}
@@ -60,9 +60,11 @@ char *GetArg(int arg,char *ArgString,char Delim)
 		if(*argnum == arg && (*DelimPos2) > ((*DelimPos1)+1))
 		{
 			char *temp = &ArgString[(*DelimPos1)+1];
-			returnarg = new char[(*DelimPos2)-(*DelimPos1)];
-			bzero(returnarg,*DelimPos2-*DelimPos1);
-			memcpy(returnarg,temp,(*DelimPos2)-(*DelimPos1)-1);
+			int len = (*DelimPos2)-(*DelimPos1)-1;
+			returnarg = new char[len+1];
+			bzero(returnarg,len+1);
+			memcpy(returnarg,temp,len);
+			returnarg[len] = '\0';
 		}
 		else
 			returnarg = NULL;

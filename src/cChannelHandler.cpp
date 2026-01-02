@@ -351,12 +351,17 @@ bool cChannelHandler::SendToChannel(int usersfd,char *ChannelName,char *msg)
 			break;
 		if(tempuser->sfd != usersfd)
 		{
-			Socket->cs_write(tempuser->sfd,msg,strlen(msg));
+			// Check if write succeeds, ignore error for disconnected clients
+			if(Socket->cs_write(tempuser->sfd,msg,strlen(msg)) < 0)
+			{
+				// Log or handle write failure silently - client may have disconnected
+				// Continue sending to other users in the channel
+			}
 			
 		}
 		
 	tempuser = tempuser->next;
-	
+
 }
 
 	delete channum;

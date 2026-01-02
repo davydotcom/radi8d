@@ -4,6 +4,7 @@
 
 # Build artifacts
 *.o
+swrapper/*.o
 radi8d
 hash_password
 test_ssl_*

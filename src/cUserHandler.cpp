@@ -199,9 +199,12 @@ bool cUserHandler::AddUser(int usersfd, char *hostname)
 	tempuser->sfd = usersfd;
 	memset(tempuser->UserBuffer->buffer,0,10);
 	info("cUserHandler::AddUser()","Setting hostname");
-	tempuser->hostname = new char[100];
-	memset(tempuser->hostname,0,100);
-	strcpy(tempuser->hostname,hostname);
+	int hostlen = strlen(hostname);
+	if(hostlen > 99) hostlen = 99; // Limit to 99 chars + null terminator
+	tempuser->hostname = new char[hostlen+1];
+	memset(tempuser->hostname,0,hostlen+1);
+	strncpy(tempuser->hostname,hostname,hostlen);
+	tempuser->hostname[hostlen] = '\0';
 	
 	info("cUserHandler::AddUser()","Setting username to \"unverified\"");
 	char *tempstr = new char[11];
