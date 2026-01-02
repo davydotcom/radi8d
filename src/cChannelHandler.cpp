@@ -213,9 +213,9 @@ int cChannelHandler::JoinChannel(int usersfd,char *ChannelName,char *Password)
 		delete newperm;
 		char *UserName = UserHandler->GetUserName(usersfd);
 		info("cChannelHandler::JoinCHannel","Creating Temp Buffer");
-		char *buffer = new char[67];
+		char *buffer = new char[strlen(UserName)+strlen(ChannelName)+50];
 		info("cChannelHandler::JoinChannel","Buffer Created");
-		bzero(buffer,67);
+		bzero(buffer,strlen(UserName)+strlen(ChannelName)+50);
 		sprintf(buffer,"!usrjoind:%s:%s:%d:%d",ChannelName,UserName,temp->UserList->permissions,UserHandler->GetAcceptVoice(usersfd));
 		SendToChannel(usersfd,ChannelName,buffer);
 		delete [] buffer;
@@ -233,8 +233,8 @@ int cChannelHandler::JoinChannel(int usersfd,char *ChannelName,char *Password)
 			tempuser->next->permissions = *newperm;
 			delete newperm;
 			char *UserName = UserHandler->GetUserName(usersfd);
-		char *buffer = new char[strlen(UserName)+17+2+strlen(ChannelName)];
-		bzero(buffer,strlen(UserName)+19+strlen(ChannelName));
+		char *buffer = new char[strlen(UserName)+strlen(ChannelName)+50];
+		bzero(buffer,strlen(UserName)+strlen(ChannelName)+50);
 		sprintf(buffer,"!usrjoind:%s:%s:%d:%d",ChannelName,UserName,tempuser->next->permissions,UserHandler->GetAcceptVoice(usersfd));
 		SendToChannel(usersfd,ChannelName,buffer);
 		delete [] buffer;
