@@ -296,15 +296,16 @@ int cUserHandler::SetName(int usersfd, char *username,char *Password)
 			break;
 		if(tempuser->sfd == usersfd)
 		{
-			info("cUserHandler::SetName","UserSFD Found");
-			if(tempuser->username != NULL)
-				delete [] tempuser->username;
-			tempuser->username = new char[26];
-			info("cUserHandler::SetName","New UserName String Created");
-			memset(tempuser->username,0,26);
-			info("cUserHandler::SetName","New UserName String Cleaned");
-			strcpy(tempuser->username,username);
-			info("cUserHandler::SetName","UserName Set");
+		info("cUserHandler::SetName","UserSFD Found");
+		if(tempuser->username != NULL)
+			delete [] tempuser->username;
+		tempuser->username = new char[26];
+		info("cUserHandler::SetName","New UserName String Created");
+		memset(tempuser->username,0,26);
+		info("cUserHandler::SetName","New UserName String Cleaned");
+		strncpy(tempuser->username,username,25);
+		tempuser->username[25] = '\0';
+		info("cUserHandler::SetName","UserName Set");
 			tempuser->DefaultPermissions = *DefaultPermissions;
 			tempuser->acceptvoice = *AcceptVoice;
 			delete DefaultPermissions;
