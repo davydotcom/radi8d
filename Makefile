@@ -23,16 +23,17 @@ else
 endif
 
 CFLAGS=-Wall -Iinclude -Iswrapper/include $(OPENSSL_INCLUDE) -c -g
-LFLAGS = -Wall -Iinclude -Iswrapper/include $(OPENSSL_INCLUDE) $(OPENSSL_LIB) -lssl -lcrypto -g
+LFLAGS = -Wall -Iinclude -Iswrapper/include $(OPENSSL_INCLUDE) $(OPENSSL_LIB) -g
+LIBS = -lssl -lcrypto
 OBJS = swrapper/swrapper.o swrapper/cswrapper.o errhandle.o cChannelHandler.o cUserHandler.o cSCore.o cSCore-2.o getconfig.o getarg.o
 VERSION = 1.2
 compile: $(OBJS)
-	$(CC) src/main.cpp $(LFLAGS) $(OBJS) -o radi8d
+	$(CC) src/main.cpp $(OBJS) $(LFLAGS) $(LIBS) -o radi8d
 
 utils: hash_password
 
 hash_password:
-	$(CC) hash_password.cpp $(OPENSSL_INCLUDE) $(OPENSSL_LIB) -lssl -lcrypto -o hash_password
+	$(CC) hash_password.cpp $(OPENSSL_INCLUDE) $(OPENSSL_LIB) $(LIBS) -o hash_password
 
 errhandle.o:
 	$(CC) $(CFLAGS) src/errhandle.cpp
