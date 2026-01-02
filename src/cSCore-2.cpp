@@ -140,7 +140,7 @@ void cSCore::JoinChannel(int usersfd,char *buffer)
 			info("cSCore::JoinChannel","Creating Channel");
 			if(!ChannelHandler->CreateChannel(ChName,Password,NULL,0,false,false))
 			{
-				Socket->cs_write(usersfd,"!err:jnchn:Unable To Create",27);
+				Socket->cs_write(usersfd,"!err:jnchn:Unable To Create\n",28);
 				delete [] ChName;
 				if(Password != NULL)
 					delete [] Password;
@@ -156,23 +156,23 @@ void cSCore::JoinChannel(int usersfd,char *buffer)
 		switch(returnval)
 		{
 	case 0: //Success
-		sprintf(newCommand,"!apr:jnchn:%s",ChName);
-		Socket->cs_write(usersfd,newCommand,11+strlen(ChName));
+		sprintf(newCommand,"!apr:jnchn:%s\n",ChName);
+		Socket->cs_write(usersfd,newCommand,12+strlen(ChName));
 			break;
 		case -1: //Channel Does Not Exist
-			Socket->cs_write(usersfd,"!err:jnchn:Failed To Create Channel",35);		
+			Socket->cs_write(usersfd,"!err:jnchn:Failed To Create Channel\n",36);
 			break;
 		case -2: //User Already In Channel
-			Socket->cs_write(usersfd,"!err:jnchn:Already In Channel",29);		
+			Socket->cs_write(usersfd,"!err:jnchn:Already In Channel\n",30);
 			break;
 		case -3:// Invalid Password
-			Socket->cs_write(usersfd,"!err:jnchn:Invalid Password",27);		
+			Socket->cs_write(usersfd,"!err:jnchn:Invalid Password\n",28);
 			break;
 		case -4://Unknown Error (Should Never Happen)
-			Socket->cs_write(usersfd,"!err:jnchn:Unknown Error",24);		
+			Socket->cs_write(usersfd,"!err:jnchn:Unknown Error\n",25);
 			break;
 		case -5://Reserved Users Only
-			Socket->cs_write(usersfd,"!err:jnchn:This Channel Is For Reserved Users Only",50);		
+			Socket->cs_write(usersfd,"!err:jnchn:This Channel Is For Reserved Users Only\n",51);
 			break;
 		};
 		if(Password != NULL)
@@ -181,7 +181,7 @@ void cSCore::JoinChannel(int usersfd,char *buffer)
 		delete [] newCommand;
 	}
 	else
-		Socket->cs_write(usersfd,"!err:lvchn:Channel Not Specified",32);
+		Socket->cs_write(usersfd,"!err:lvchn:Channel Not Specified\n",33);
 }
 void cSCore::LeaveChannel(int usersfd,char *buffer)
 {
@@ -194,13 +194,13 @@ bool returnval;
 
 		returnval = ChannelHandler->LeaveChannel(usersfd,ChName);
 		if(!returnval)
-			Socket->cs_write(usersfd,"!err:lvchn:You Are Not In That Channel",38);
+			Socket->cs_write(usersfd,"!err:lvchn:You Are Not In That Channel\n",39);
 		else
-			Socket->cs_write(usersfd,"!apr:lvchn",10);
+			Socket->cs_write(usersfd,"!apr:lvchn\n",11);
 		delete [] ChName;
 	}
 	else
-		Socket->cs_write(usersfd,"!err:lvchn:Channel Not Specified",32);
+		Socket->cs_write(usersfd,"!err:lvchn:Channel Not Specified\n",33);
 	
 }
 void cSCore::Message(int usersfd,char *buffer)
@@ -223,7 +223,7 @@ bool returnval;
 				*TheirSFD = UserHandler->GetSFD(UserName);
 				if(*TheirSFD == -1)
 				{
-					Socket->cs_write(usersfd,"!err:msg:User Does Not Exist",28);
+					Socket->cs_write(usersfd,"!err:msg:User Does Not Exist\n",29);
 					delete [] TheMsg;
 					delete TheirSFD;
 				}
@@ -235,7 +235,7 @@ bool returnval;
 			char *buffer2 = new char[buffer2_size];
 			memset(buffer2,0,buffer2_size);
 			info("cSCore::Message","Buffer Declared");
-			sprintf(buffer2,"!usrmsg:user:%s:%s",FromUser,TheMsg);
+				sprintf(buffer2,"!usrmsg:user:%s:%s\n",FromUser,TheMsg);
 				Socket->cs_write(*TheirSFD,buffer2,strlen(buffer2));
 				delete [] buffer2;
 				delete [] TheMsg;
@@ -244,12 +244,12 @@ bool returnval;
 				}
 				else
 				{
-					Socket->cs_write(usersfd,"!err:msg:No Message",19);	
+					Socket->cs_write(usersfd,"!err:msg:No Message\n",20);
 				}
 				delete[]UserName;
 			}
 			else
-				Socket->cs_write(usersfd,"!err:msg:UserName Not Specified",31);
+				Socket->cs_write(usersfd,"!err:msg:UserName Not Specified\n",32);
 		}
 		else
 		{
@@ -266,23 +266,23 @@ bool returnval;
 			
 			memset(buffer2,0,buffer2_size);
 			
-			sprintf(buffer2,"!usrmsg:%s:%s:%s",ChName,FromUser,TheMsg);
+			sprintf(buffer2,"!usrmsg:%s:%s:%s\n",ChName,FromUser,TheMsg);
 				
 				returnval = ChannelHandler->SendToChannel(usersfd,ChName,buffer2);
 				
 				if(!returnval)
-					Socket->cs_write(usersfd,"!err:msg:Failed To Send To Channel",34);
+					Socket->cs_write(usersfd,"!err:msg:Failed To Send To Channel\n",35);
 				delete [] buffer2;
 				delete [] TheMsg;
 			}
 			else
-				Socket->cs_write(usersfd,"!err:msg:No Message",19);	
+				Socket->cs_write(usersfd,"!err:msg:No Message\n",20);
 		}
 		
 		delete [] ChName;
 	}
 	else
-		Socket->cs_write(usersfd,"!err:msg:Channel Not Specified",30);
+		Socket->cs_write(usersfd,"!err:msg:Channel Not Specified\n",31);
 }
 void cSCore::ChangeName(int usersfd,char *buffer)
 {
@@ -310,19 +310,19 @@ void cSCore::ChangeName(int usersfd,char *buffer)
 			ChannelHandler->UserNameChange(usersfd,OldName);
 			break;
 		case -1:
-			Socket->cs_write(usersfd,"!err:name:New Name Not Specified",32);
+			Socket->cs_write(usersfd,"!err:name:New Name Not Specified\n",33);
 			break;
 		case -2:
-			Socket->cs_write(usersfd,"!err:name:New Name Too Long",27);
+			Socket->cs_write(usersfd,"!err:name:New Name Too Long\n",28);
 			break;
 		case -3:
-			Socket->cs_write(usersfd,"!err:name:Unknown Error",23);
+			Socket->cs_write(usersfd,"!err:name:Unknown Error\n",24);
 			break;
 		case -4:
-			Socket->cs_write(usersfd,"!err:name:Invalid Password",26);
+			Socket->cs_write(usersfd,"!err:name:Invalid Password\n",27);
 			break;
 		case -5: 
-			Socket->cs_write(usersfd,"!err:name:User Already Connected",32);
+			Socket->cs_write(usersfd,"!err:name:User Already Connected\n",33);
 			break;
 		};
 		delete [] OldName;
@@ -330,7 +330,7 @@ void cSCore::ChangeName(int usersfd,char *buffer)
 		delete [] Password;
 	}
 	else
-		Socket->cs_write(usersfd,"!err:name:New Name Not Specified",32);
+		Socket->cs_write(usersfd,"!err:name:New Name Not Specified\n",33);
 }
 void cSCore::Emote(int usersfd,char *buffer)
 {
@@ -353,7 +353,7 @@ bool returnval;
 				*TheirSFD = UserHandler->GetSFD(UserName);
 				if(*TheirSFD == -1)
 				{
-					Socket->cs_write(usersfd,"!err:emote:User Does Not Exist",30);
+					Socket->cs_write(usersfd,"!err:emote:User Does Not Exist\n",31);
 					delete [] TheMsg;
 					delete TheirSFD;
 				}
@@ -363,7 +363,7 @@ bool returnval;
 			int buffer2_size = 19 + strlen(FromUser) + strlen(TheMsg);
 			char *buffer2 = new char[buffer2_size];
 			memset(buffer2,0,buffer2_size);
-			sprintf(buffer2,"!usremt:user:%s:%s",FromUser,TheMsg);
+			sprintf(buffer2,"!usremt:user:%s:%s\n",FromUser,TheMsg);
 				Socket->cs_write(*TheirSFD,buffer2,strlen(buffer2));
 				delete [] buffer2;
 				delete [] TheMsg;
@@ -372,12 +372,12 @@ bool returnval;
 				}
 				else
 				{
-					Socket->cs_write(usersfd,"!err:emote:No Message",21);	
+					Socket->cs_write(usersfd,"!err:emote:No Message\n",22);
 				}
 				delete[]UserName;
 			}
 			else
-				Socket->cs_write(usersfd,"!err:emote:UserName Not Specified",33);
+				Socket->cs_write(usersfd,"!err:emote:UserName Not Specified\n",34);
 		}
 		else
 		{
@@ -394,23 +394,23 @@ bool returnval;
 			
 			memset(buffer2,0,buffer2_size);
 			
-			sprintf(buffer2,"!usremt:%s:%s:%s",ChName,FromUser,TheMsg);
+			sprintf(buffer2,"!usremt:%s:%s:%s\n",ChName,FromUser,TheMsg);
 				
 				returnval = ChannelHandler->SendToChannel(usersfd,ChName,buffer2);
 				
 				if(!returnval)
-					Socket->cs_write(usersfd,"!err:emote:Failed To Send To Channel",36);
+					Socket->cs_write(usersfd,"!err:emote:Failed To Send To Channel\n",37);
 				delete [] buffer2;
 				delete [] TheMsg;
 			}
 			else
-				Socket->cs_write(usersfd,"!err:emote:No Message",21);	
+				Socket->cs_write(usersfd,"!err:emote:No Message\n",22);
 		}
 		
 		delete [] ChName;
 	}
 	else
-		Socket->cs_write(usersfd,"!err:emote:Channel Not Specified",32);
+		Socket->cs_write(usersfd,"!err:emote:Channel Not Specified\n",33);
 }
 void cSCore::SendMOTD(int usersfd)
 {
@@ -419,7 +419,7 @@ void cSCore::SendMOTD(int usersfd)
 	MOTDFile = fopen("radi8d.motd","r");
 	if(MOTDFile == NULL)
 	{
-		Socket->cs_write(usersfd,"!motd:No Motd Set",17);
+		Socket->cs_write(usersfd,"!motd:No Motd Set\n",18);
 		return;
 	}
 	
@@ -494,7 +494,8 @@ void cSCore::SendMOTD(int usersfd)
 		
 		if(chunkpos > 6)
 		{
-			Socket->cs_write(usersfd, chunk, strlen(chunk));
+			chunk[chunkpos] = '\n';
+			Socket->cs_write(usersfd, chunk, chunkpos+1);
 		}
 	}
 	
@@ -548,7 +549,7 @@ void cSCore::GetTopic(int usersfd,char *buffer)
 
 		char *TopicData = new char[strlen(ChName)+7+10];
 		memset(TopicData,0,strlen(ChName)+7+10);
-		sprintf(TopicData,"!topic:%s:No Topic",ChName);
+		sprintf(TopicData,"!topic:%s:No Topic\n",ChName);
 		Socket->cs_write(usersfd,TopicData,strlen(TopicData));
 		delete [] TopicData;
 		}
@@ -556,14 +557,14 @@ void cSCore::GetTopic(int usersfd,char *buffer)
 		{
 			char *TopicData = new char[strlen(ChName)+9+strlen(Topic)];
 			memset(TopicData,0,strlen(ChName)+9+strlen(Topic));
-			sprintf(TopicData,"!topic:%s:%s",ChName,Topic);
+			sprintf(TopicData,"!topic:%s:%s\n",ChName,Topic);
 			Socket->cs_write(usersfd,TopicData,strlen(TopicData));
 			delete [] TopicData;
 		}
 		delete [] ChName;
 	}
 	else
-		Socket->cs_write(usersfd,"!err:topic:Channel Not Specified",32);
+		Socket->cs_write(usersfd,"!err:topic:Channel Not Specified\n",33);
 }
 void cSCore::SetTopic(int usersfd,char *buffer)
 {
@@ -575,7 +576,7 @@ void cSCore::SetTopic(int usersfd,char *buffer)
 		char *Topic = GetArg(2,buffer,':');
 		if(Topic == NULL)
 		{
-			Socket->cs_write(usersfd,"!err:settopic:No Topic Specified",32);
+			Socket->cs_write(usersfd,"!err:settopic:No Topic Specified\n",33);
 
 		
 		}
@@ -586,13 +587,13 @@ void cSCore::SetTopic(int usersfd,char *buffer)
 				info("cSCore::SetTopic","Topic Set Succeeded");
 				char *TopicSet = new char[288];
 				memset(TopicSet,0,288);
-				sprintf(TopicSet,"!topic:%s:%s",ChName,Topic);
+				sprintf(TopicSet,"!topic:%s:%s\n",ChName,Topic);
 				ChannelHandler->SendToChannel(-1,ChName,TopicSet);
 				delete [] TopicSet;
 			}
 			else
 			{
-				Socket->cs_write(usersfd,"!err:settopic:Unable To Set The Topic. You May Not Have Sufficient Privilages",77);
+				Socket->cs_write(usersfd,"!err:settopic:Unable To Set The Topic. You May Not Have Sufficient Privilages\n",78);
 				info("cSCore::SetTopic","Topic Failed to be set");	
 			}
 			delete [] Topic;
@@ -600,7 +601,7 @@ void cSCore::SetTopic(int usersfd,char *buffer)
 		delete [] ChName;
 	}
 	else
-		Socket->cs_write(usersfd,"!err:settopic:Channel Name Not Specified",40);
+		Socket->cs_write(usersfd,"!err:settopic:Channel Name Not Specified\n",41);
 }
 void cSCore::UserList(int usersfd, char *buffer)
 {
@@ -620,7 +621,7 @@ void cSCore::UserList(int usersfd, char *buffer)
 			char *UserName = UserHandler->GetUserName(TempUser->sfd);
 			char *buffer = new char[67];
 			memset(buffer,0,67);
-			sprintf(buffer,"!usrjoind:%s:%s:%d:%d",ChName,UserName,TempUser->permissions,UserHandler->GetAcceptVoice(TempUser->sfd));
+			sprintf(buffer,"!usrjoind:%s:%s:%d:%d\n",ChName,UserName,TempUser->permissions,UserHandler->GetAcceptVoice(TempUser->sfd));
 			Socket->cs_write(usersfd,buffer,strlen(buffer));
 			//!usrjoind:channel:username:permissions:allowvoice
 			delete [] buffer;
@@ -629,21 +630,21 @@ void cSCore::UserList(int usersfd, char *buffer)
 		delete [] ChName;
 	}
 	else
-		Socket->cs_write(usersfd,"!err:userlist:Channel Name Not Specified",40);
+		Socket->cs_write(usersfd,"!err:userlist:Channel Name Not Specified\n",41);
 }
 void cSCore::KickUser(int usersfd, char *buffer)
 {
 	char *ChName = GetArg(1,buffer,':');
 	if(ChName == NULL)
 	{
-		Socket->cs_write(usersfd,"!err:kick:Channel Not Specified",31);
+		Socket->cs_write(usersfd,"!err:kick:Channel Not Specified\n",32);
 		return;
 	}
 	
 	char *UserName = GetArg(2,buffer,':');
 	if(UserName == NULL)
 	{
-		Socket->cs_write(usersfd,"!err:kick:Username Not Specified",32);
+		Socket->cs_write(usersfd,"!err:kick:Username Not Specified\n",33);
 		delete [] ChName;
 		return;
 	}
@@ -660,7 +661,7 @@ void cSCore::KickUser(int usersfd, char *buffer)
 	int targetSfd = UserHandler->GetSFD(UserName);
 	if(targetSfd == -1)
 	{
-		Socket->cs_write(usersfd,"!err:kick:User Not Found",24);
+		Socket->cs_write(usersfd,"!err:kick:User Not Found\n",25);
 		delete [] ChName;
 		delete [] UserName;
 		delete [] Reason;
@@ -670,7 +671,7 @@ void cSCore::KickUser(int usersfd, char *buffer)
 	// Check if user is in the channel
 	if(ChannelHandler->IsInChannel(targetSfd, ChName) == -1)
 	{
-		Socket->cs_write(usersfd,"!err:kick:User Not In Channel",29);
+		Socket->cs_write(usersfd,"!err:kick:User Not In Channel\n",30);
 		delete [] ChName;
 		delete [] UserName;
 		delete [] Reason;
@@ -689,11 +690,11 @@ void cSCore::KickUser(int usersfd, char *buffer)
 	
 	if(result)
 	{
-		Socket->cs_write(usersfd,"!apr:kick",9);
+		Socket->cs_write(usersfd,"!apr:kick\n",10);
 	}
 	else
 	{
-		Socket->cs_write(usersfd,"!err:kick:Permission Denied or Unable to Kick",45);
+		Socket->cs_write(usersfd,"!err:kick:Permission Denied or Unable to Kick\n",46);
 	}
 	
 	delete [] ChName;
